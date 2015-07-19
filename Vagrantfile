@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant"
 
-  config.vm.synced_folder "www/", "/var/www", group: 'www-data', owner: 'www-data'
+  # config.vm.synced_folder "../trip2", "/var/www/trip2", group: 'www-data', owner: 'www-data'
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize ["modifyvm", :id, "--memory", "1024"]
