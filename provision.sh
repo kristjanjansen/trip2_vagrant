@@ -119,6 +119,9 @@ sudo /usr/bin/npm install -g gulp
 sudo fallocate -l 4G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
+
+# You might need to to reenter this later 
+
 sudo swapon /swapfile
 
 # Next steps
@@ -130,10 +133,17 @@ ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 
 cp /vagrant/.htpasswd /etc/nginx
 
-# composer create-project laravel/laravel laravel
+# cd /var/www
+# git clone https://github.com/kristjanjansen/trip2.git
+# cd trip2
+# composer install
+# npm install
+# gulp
+# cp .env.example .env
+# php artisan migrate
 # sudo chmod -R o+w bootstrap/cache/
 # sudo chmod -R o+w storage/
 # sudo chmod -R o+w public/images/
 
-# /etc/nginx/nginx.conf
+# Add this to /etc/nginx/nginx.conf
 # server { client_max_body_size 100M; }
