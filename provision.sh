@@ -131,7 +131,7 @@ sudo chown -R www-data:www-data /var/www
 cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 
-cp /vagrant/.htpasswd /etc/nginx
+cp /vagrant/.htpasswd /etc/nginx/
 
 # cd /var/www
 # git clone https://github.com/kristjanjansen/trip2.git
