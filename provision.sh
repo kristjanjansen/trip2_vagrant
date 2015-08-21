@@ -102,16 +102,17 @@ sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'%' ID
 
 sudo service mysql restart
 
+# Node
+
+sudo apt-add-repository ppa:chris-lea/node.js -y
+sudo apt-get update -y
+sudo apt-get install -y nodejs
+sudo /usr/bin/npm install -g gulp
 
 # Other
 
-sudo apt-add-repository ppa:chris-lea/node.js -y
-sudo apt-add-repository ppa:rwky/redis -y
-
-sudo apt-get update -y
-
-sudo apt-get install -y nodejs
-sudo /usr/bin/npm install -g gulp
+# sudo apt-add-repository ppa:rwky/redis -y
+# sudo apt-get update -y
 # sudo apt-get install -y redis-server memcached beanstalkd
 
 # Enable Swap Memory
