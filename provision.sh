@@ -65,6 +65,11 @@ rm /etc/nginx/sites-enabled/default
 rm /etc/nginx/sites-available/default
 
 
+# Set Nginx settings
+
+sed -i "s/http {/http {\n\nclient_max_body_size 100M;/" /etc/nginx/nginx.conf
+
+
 # Set PHP-FPM settings
 
 sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/fpm/php.ini
@@ -115,6 +120,7 @@ sudo /usr/bin/npm install -g gulp
 # sudo apt-get update -y
 # sudo apt-get install -y redis-server memcached beanstalkd
 
+
 # Enable Swap Memory
 
 sudo fallocate -l 4G /swapfile
@@ -125,12 +131,13 @@ sudo mkswap /swapfile
 
 sudo swapon /swapfile
 
+
 # Next steps
 
 sudo chown -R www-data:www-data /var/www
 
-cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
-ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
+sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
+sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 
 cp /vagrant/.htpasswd /etc/nginx/
 
@@ -138,13 +145,11 @@ cp /vagrant/.htpasswd /etc/nginx/
 # git clone https://github.com/kristjanjansen/trip2.git
 # cd trip2
 # composer install
+# php artisan key:generate
 # npm install
 # gulp
 # cp .env.example .env
-# php artisan migrate
 # sudo chmod -R o+w bootstrap/cache/
 # sudo chmod -R o+w storage/
 # sudo chmod -R o+w public/images/
 
-# Add this to /etc/nginx/nginx.conf
-# server { client_max_body_size 100M; }
