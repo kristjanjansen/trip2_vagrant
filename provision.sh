@@ -63,7 +63,7 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
 sudo apt-get install -y nginx php5-fpm
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
-
+sudo rm -R /var/www/html
 
 # Set Nginx settings
 
