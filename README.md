@@ -4,7 +4,7 @@
 
 ## Run local machine
 
-Update ```settings.php``` with your Trip project relative path. It's recommended to set it to ```../trip2```.
+Update ```settings.php``` with your Trip project relative path. It's recommended to set it to ```../trip2```. Then
 
     vagrant up
 
