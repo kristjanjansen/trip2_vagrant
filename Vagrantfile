@@ -1,3 +1,7 @@
+require 'yaml'
+
+settings = YAML.load_file 'settings.yml'
+
 Vagrant.configure(2) do |config|
   
   config.vm.box = "ubuntu/trusty64"
@@ -25,10 +29,10 @@ Vagrant.configure(2) do |config|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'digital_ocean'
     override.vm.box_url = 'https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box'
-    provider.token = '0c2b79a731cd4f39565838a2cf22b461ba5fe4f3d3f20f9fa19aefa3fc4cc4c3'
+    provider.token = settings['digital_ocean']['token']
     provider.image = 'ubuntu-14-04-x64'
     provider.region = 'ams3'
-    provider.size = '512mb'
+    provider.token = settings['digital_ocean']['plan']
   end
 
 end
