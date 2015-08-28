@@ -2,6 +2,8 @@ require 'yaml'
 
 settings = YAML.load_file 'settings.yml'
 
+puts settings.digital_occean
+
 Vagrant.configure(2) do |config|
   
   config.vm.box = "ubuntu/trusty64"

@@ -1,0 +1,6 @@
+digital_ocean:
+    token: ''
+    plan: '512mb'
+linode:
+    token: ''
+    plan: 'Linode 1024'
