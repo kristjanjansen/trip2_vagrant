@@ -19,3 +19,4 @@ Update ```settings.php``` with Linode API token. Then
 
     vagrant plugin install vagrant-linode
     vagrant up --provider=linode
+    vagrant provision
