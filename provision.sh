@@ -63,7 +63,6 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
 sudo apt-get install -y nginx php5-fpm
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
-sudo rm -R /var/www/html
 
 # Set Nginx settings
 
@@ -132,23 +131,25 @@ sudo mkswap /swapfile
 sudo swapon /swapfile
 
 
-# Next steps
-
-sudo chown -R www-data:www-data /var/www
+# Final steps
 
 sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 
 sudo cp /vagrant/.htpasswd /etc/nginx/
 
+sudo rm -R /var/www/html
+sudo cp /vagrant/update.sh /var/www/.
+
 # cd /var/www
 # git clone https://github.com/kristjanjansen/trip2.git
 # cd trip2
 # composer install
-# php artisan key:generate
 # npm install
 # gulp
 # cp .env.example .env
+# php artisan key:generate
+# sudo chown -R www-data:www-data /var/www
 # sudo chmod -R o+w bootstrap/cache/
 # sudo chmod -R o+w storage/
 # sudo chmod -R o+w public/images/
