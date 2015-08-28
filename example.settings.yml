@@ -1,3 +1,5 @@
+local:
+    trip_folder: false
 digital_ocean:
     token: ''
     plan: '512mb'
