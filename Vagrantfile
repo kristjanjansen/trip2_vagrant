@@ -32,7 +32,7 @@ Vagrant.configure(2) do |config|
     provider.token = settings['digital_ocean']['token']
     provider.image = 'ubuntu-14-04-x64'
     provider.region = 'ams3'
-    provider.token = settings['digital_ocean']['plan']
+    provider.size = settings['digital_ocean']['plan']
   end
 
 end
