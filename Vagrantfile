@@ -29,10 +29,19 @@ Vagrant.configure(2) do |config|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
     override.vm.box = 'digital_ocean'
     override.vm.box_url = 'https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box'
-    provider.token = settings['digital_ocean']['token']
     provider.image = 'ubuntu-14-04-x64'
     provider.region = 'ams3'
+    provider.token = settings['digital_ocean']['token']
     provider.size = settings['digital_ocean']['plan']
   end
 
+  config.vm.provider :linode do |provider, override|
+    override.ssh.private_key_path = '~/.ssh/id_rsa'
+    override.vm.box = 'linode'
+    override.vm.box_url = "https://github.com/displague/vagrant-linode/raw/master/box/linode.box"
+    provider.distribution = 'Ubuntu 14.04 LTS'
+    provider.datacenter = 'frankfurt'
+    provider.api_key = settings['linode']['token']
+    provider.plan = settings['linode']['plan']
+  end
 end
