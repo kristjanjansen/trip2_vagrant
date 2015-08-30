@@ -19,7 +19,7 @@ else
     mysqladmin -uroot -p$1 create trip
     mysqladmin -uroot -p$1 create trip2
 
-    cat <<EOT >> .env
+    echo "
 
 DB_HOST1=127.0.0.1
 DB_DATABASE1=trip
@@ -33,5 +33,10 @@ DB_PASSWORD2=$1
 
 DB_CONNECTION=trip2
 
-    EOT
+CONVERT_TAKE=20
+CONVERT_FILES=false
+CONVERT_SCRAMBLE=true" >> .env
+    
+    php artisan migrate
+
 fi
