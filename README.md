@@ -22,3 +22,7 @@ Update ```settings.php``` with Linode API token. Then
     vagrant plugin install vagrant-linode
     vagrant up --provider=linode
     vagrant provision
+
+## Set up keys
+
+    ssh-keygen -t rsa -b 4096 -C "trip@trip.ee"

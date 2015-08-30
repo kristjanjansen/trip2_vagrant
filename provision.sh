@@ -113,12 +113,13 @@ sudo apt-get update -y
 sudo apt-get install -y nodejs
 sudo /usr/bin/npm install -g gulp
 
+# Redis
+
+sudo apt-get install -y redis-server
+
 # Other
 
-# sudo apt-add-repository ppa:rwky/redis -y
-# sudo apt-get update -y
-# sudo apt-get install -y redis-server memcached beanstalkd
-
+# sudo apt-get install -y memcached beanstalkd
 
 # Enable Swap Memory
 
@@ -135,22 +136,10 @@ sudo swapon /swapfile
 
 sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
+sudo rm -R /var/www/html
 
 sudo cp /vagrant/.htpasswd /etc/nginx/
 
-sudo rm -R /var/www/html
-sudo cp /vagrant/update.sh /var/www/.
+sudo cp /vagrant/scripts/* /var/www/.
 
-# cd /var/www
-# git clone https://github.com/kristjanjansen/trip2.git
-# cd trip2
-# composer install
-# npm install
-# gulp
-# cp .env.example .env
-# php artisan key:generate
-# sudo chown -R www-data:www-data /var/www
-# sudo chmod -R o+w bootstrap/cache/
-# sudo chmod -R o+w storage/
-# sudo chmod -R o+w public/images/
-
+ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa

@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ $# -eq 0 ]; then
     echo "Usage: ./update.sh local-db-password remote-db-password"
 else
