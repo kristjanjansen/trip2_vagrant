@@ -8,7 +8,7 @@ else
     composer install --prefer-source
     cp .env.example .env
     php artisan key:generate
-    npm install
+    npm install --no-bin-links
     gulp
 
     sudo chown -R www-data:www-data /var/www

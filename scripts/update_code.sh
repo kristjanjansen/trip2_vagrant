@@ -5,3 +5,4 @@ git pull
 composer update
 npm install
 gulp
+php artisan cache:clear
