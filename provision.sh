@@ -142,4 +142,4 @@ sudo cp /vagrant/.htpasswd /etc/nginx/
 
 sudo cp /vagrant/scripts/* /var/www/.
 
-ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa
+sudo ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa
