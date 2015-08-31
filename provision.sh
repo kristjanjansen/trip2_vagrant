@@ -21,6 +21,7 @@ sudo apt-get install build-essential -y
 sudo apt-get install curl -y
 sudo apt-get install unzip -y
 sudo apt-get install imagemagick -y
+sudo apt-get install apache2-utils -y
 
 sudo apt-get install -y dos2unix gcc git libmcrypt4 libpcre3-dev 
 
