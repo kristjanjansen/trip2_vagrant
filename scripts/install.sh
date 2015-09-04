@@ -3,7 +3,6 @@
 if [ $# -eq 0 ]; then
     echo "Usage: ./install.sh local-db-password"
 else
-    git clone https://github.com/kristjanjansen/trip2.git
     cd trip2
     composer install --prefer-source
     cp .env.example .env
