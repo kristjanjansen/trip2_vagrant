@@ -34,7 +34,11 @@ DB_CONNECTION=trip2
 
 CONVERT_TAKE=20
 CONVERT_FILES=false
-CONVERT_SCRAMBLE=true" >> .env
+CONVERT_SCRAMBLE=true
+CONVERT_OVERWRITE=false
+CONVERT_FILEHASH=false
+
+IMAGE_DRIVER=imagick" >> .env
     
     php artisan migrate
 
