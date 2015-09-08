@@ -1,7 +1,7 @@
 ## Installation
 
-    git clone https://github.com/kristjanjansen/trip2_vagrant
-    git clone https://github.com/kristjanjansen/trip2
+    git clone https://github.com/tripikad/trip2_vagrant
+    git clone https://github.com/tripikad/trip2
     cd trip2_vagrant
     cp example.settings.yml settings.yml
 
