@@ -54,7 +54,7 @@ Also, set ```trip_folder: false```.
 
     cd /var/www
     git clone https://github.com/tripikad/trip2.git
-    ./install.sh
+    ./install.sh secret
 
 ### Run Linode machine
 
@@ -74,4 +74,4 @@ Also, set ```trip_folder: false```.
 
     cd /var/www
     git clone https://github.com/tripikad/trip2.git
-    ./install.sh
+    ./install.sh secret
