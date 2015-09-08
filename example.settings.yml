@@ -1,5 +1,5 @@
 local:
-    trip_folder: false
+    trip_folder: ../trip2
 digital_ocean:
     token: ''
     plan: '512mb'
