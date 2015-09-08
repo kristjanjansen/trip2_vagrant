@@ -16,7 +16,7 @@
 
 Set your root password:
 
-    sudo password 
+    sudo passwd
 
 Enter your root password:
     
