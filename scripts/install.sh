@@ -4,7 +4,7 @@ if [ $# -eq 0 ]; then
     echo "Usage: ./install.sh secret"
 else
     cd trip2
-    composer install --prefer-source
+    composer install --prefer-source --no-interaction
     cp .env.example .env
     php artisan key:generate
     npm install --no-bin-links
