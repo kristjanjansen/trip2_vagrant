@@ -39,14 +39,20 @@ Then, in virtual machine:
 
 ### Run Digital Ocean machine
 
-Update ```settings.php``` with Digital Ocean API token (API > Your Tokens) Then
+Update ```settings.php``` with Digital Ocean API token (API > Your Tokens).
+Also, set ```trip_folder: false```.
+
+Then
 
     vagrant plugin install vagrant-digitalocean
     vagrant up --provider=digital_ocean
 
 ### Run Linode machine
 
-Update ```settings.php``` with Linode API token (My Profile > API Keys). Then
+Update ```settings.php``` with Linode API token (My Profile > API Keys).
+Also, set ```trip_folder: false```.
+
+Then
 
     vagrant plugin install vagrant-linode
     vagrant up --provider=linode
