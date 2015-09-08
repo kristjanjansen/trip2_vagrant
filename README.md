@@ -44,8 +44,6 @@ Update ```settings.php``` with Digital Ocean API token. Then
     vagrant plugin install vagrant-digitalocean
     vagrant up --provider=digital_ocean
 
-## Advanced
-
 ### Run Linode machine
 
 Update ```settings.php``` with Linode API token. Then
