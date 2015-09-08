@@ -29,9 +29,11 @@ Then
 
 ## Get the data
 
-You'll need to pass your public key to the old trip server first.
+You'll need to pass your public key to the old trip server first. Use
 
-Then, in virtual machine:
+    cat /root/.ssh/id_rsa.pub
+
+and pass it to admin. Then, in virtual machine:
 
     ./update_db secret trip-remote-db-password
 
