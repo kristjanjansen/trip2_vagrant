@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "Usage: ./install.sh local-db-password"
+    echo "Usage: ./install.sh secret"
 else
     cd trip2
     composer install --prefer-source
@@ -37,6 +37,7 @@ CONVERT_FILES=false
 CONVERT_SCRAMBLE=true
 CONVERT_OVERWRITE=false
 CONVERT_FILEHASH=false
+CONVERT_DEMOACCOUNTS=false
 
 IMAGE_DRIVER=imagick" >> .env
     

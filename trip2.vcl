@@ -24,7 +24,19 @@ sub vcl_recv {
     if (req.method == "PURGE") {
         return (purge);
     }
- 
+
+    if (req.method == "POST") { 
+        return (pass);
+    }
+
+    if (req.method == "PUT") { 
+        return (pass);
+    }
+
+    if (req.method == "DELETE") { 
+        return (pass);
+    }
+
     if (req.url ~ "^/(login|logout)") { 
         return (pass);
     }

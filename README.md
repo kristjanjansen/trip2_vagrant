@@ -1,28 +1,55 @@
 ## Installation
 
+    git clone https://github.com/kristjanjansen/trip2_vagrant
+    git clone https://github.com/kristjanjansen/trip2
+    cd trip2_vagrant
     cp example.settings.yml settings.yml
 
 ## Run local machine
 
-Update ```settings.php``` with your Trip project relative path. It's recommended to set it to ```../trip2```. Then
+### In local machine
 
     vagrant up
+    vagrant ssh
 
-## Run Digital Ocean machine
+### When inside virtual machine
+
+Set your root password:
+
+    sudo password 
+
+Enter your root password:
+    
+    su
+
+Then
+
+    cd /var/www
+    ./install.sh secret
+
+## Get the data
+
+You'll need to pass your public key to the old trip server first.
+
+Then, in virtual machine:
+
+    ./update_db secret trip-remote-db-password
+
+## Advaced setup
+
+### Run Digital Ocean machine
 
 Update ```settings.php``` with Digital Ocean API token. Then
 
     vagrant plugin install vagrant-digitalocean
     vagrant up --provider=digital_ocean
 
-## Run Linode machine
+## Advanced
+
+### Run Linode machine
 
 Update ```settings.php``` with Linode API token. Then
 
     vagrant plugin install vagrant-linode
     vagrant up --provider=linode
     vagrant provision
-
-## Set up keys
-
-    ssh-keygen -t rsa -b 4096 -C "trip@trip.ee"
