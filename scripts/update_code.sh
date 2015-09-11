@@ -2,7 +2,7 @@
 
 cd trip2
 git pull
-composer update
+composer update --prefer-dist --no-interaction
 npm install
 gulp
 php artisan optimize --force
