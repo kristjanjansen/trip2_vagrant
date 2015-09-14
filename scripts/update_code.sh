@@ -3,7 +3,7 @@
 cd trip2
 git pull
 composer update --prefer-dist --no-interaction
-npm install
+npm install --no-bin-links
 gulp
 php artisan optimize --force
 php artisan cache:clear
