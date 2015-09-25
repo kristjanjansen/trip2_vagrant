@@ -112,7 +112,7 @@ sudo service mysql restart
 sudo apt-add-repository ppa:chris-lea/node.js -y
 sudo apt-get update -y
 sudo apt-get install -y nodejs
-sudo /usr/bin/npm install -g gulp
+sudo /usr/bin/npm install -g gulp slack-cli
 
 # Redis
 
