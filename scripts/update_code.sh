@@ -1,6 +1,6 @@
 #!/bin/bash
 
-env $(cat trip2/.env | xargs) slackcli -h server -m "Starting updating code from Github master" -u server
+env $(cat trip2/.env | xargs) slackcli -h servers -m "Starting updating code from Github master" -u server
 
 cd trip2
 git pull
@@ -13,4 +13,4 @@ php artisan route:cache
 php artisan config:cache
 
 cd ..
-env $(cat trip2/.env | xargs) slackcli -h server -m "Code updated from Github master" -u server
+env $(cat trip2/.env | xargs) slackcli -h servers -m "Code updated from Github master" -u server
