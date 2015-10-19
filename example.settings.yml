@@ -1,3 +1,5 @@
+global:
+    password: secret
 local:
     trip_folder: ../trip2
 digital_ocean:

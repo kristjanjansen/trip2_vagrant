@@ -89,21 +89,21 @@ sudo service php5-fpm restart
 
 # Install MySQL
 
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password secret"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password secret"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $1"
+sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $1"
 sudo apt-get install -y mysql-server-5.6
 
 
 # MySQL remote access
 
 sudo sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
-sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
+sudo mysql --user="root" --password="$1" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY '$1' WITH GRANT OPTION;"
+sudo mysql --user="root" --password="$1" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '$1' WITH GRANT OPTION;"
 
-# sudo mysql --user="root" --password="secret" -e "CREATE USER 'server'@'0.0.0.0' IDENTIFIED BY 'secret';"
-# sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'server'@'0.0.0.0' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-# sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'server'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
-# sudo mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
+# sudo mysql --user="root" --password="$1" -e "CREATE USER 'server'@'0.0.0.0' IDENTIFIED BY '$1';"
+# sudo mysql --user="root" --password="$1" -e "GRANT ALL ON *.* TO 'server'@'0.0.0.0' IDENTIFIED BY '$1' WITH GRANT OPTION;"
+# sudo mysql --user="root" --password="$1" -e "GRANT ALL ON *.* TO 'server'@'%' IDENTIFIED BY '$1' WITH GRANT OPTION;"
+# sudo mysql --user="root" --password="$1" -e "FLUSH PRIVILEGES;"
 
 sudo service mysql restart
 
