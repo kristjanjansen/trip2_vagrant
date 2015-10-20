@@ -105,6 +105,7 @@ sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'%' ID
 # sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'server'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 # sudo mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 
+sudo service mysql start
 sudo service mysql restart
 
 # Node
