@@ -15,11 +15,8 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant"
 
-  if settings['local']['repo_path']
-    config.vm.synced_folder settings['local']['repo_path'], settings['local']['base_path'], group: 'www-data', owner: 'www-data'
-  end
-
   config.vm.provider "virtualbox" do |vb|
+    vb.config.vm.synced_folder settings['local']['repo_path'], settings['local']['base_path'], group: 'www-data', owner: 'www-data'
     vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
 
