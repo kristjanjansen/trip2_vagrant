@@ -23,9 +23,9 @@ Vagrant.configure(2) do |config|
     vb.customize ["modifyvm", :id, "--memory", "2048"]
   end
 
-  config.vm.provision "shell" do |s|
+  config.vm.provision :shell do |s|
     s.path = "provision.sh"
-    s.args = [settings['local']['db_password'], settings['local']['base_path']
+    s.args = [settings['local']['db_password'], settings['local']['base_path']]
   end
 
   config.vm.provider :digital_ocean do |provider, override|
@@ -52,7 +52,8 @@ Vagrant.configure(2) do |config|
     provider.plan = settings['linode']['plan']
     provider.vm.provision :shell do |s|
       s.path = "provision2.sh"
-      s.args = [settings['digital_ocean']['public_path']]
+      s.args = [settings['linode']['public_path']]
     end
   end
+
 end
