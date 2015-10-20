@@ -1,17 +1,17 @@
 local:
-    trip_folder: ../trip2
-    local_path: /var/www/trip2
+    repo_path: ../trip2
+    base_path: /var/www/trip2
     public_path: /var/www/trip2/public
-    password: secret
+    db_password: secret
 digital_ocean:
     base_path: /var/www/trip2
     public_path: /var/www/trip2/public
-    password: secret
+    db_password: secret
     token: ''
     plan: '512mb'
 linode:
     base_path: /var/www/trip2
     public_path: /var/www/trip2/public
-    password: secret
+    db_password: secret
     token: ''
     plan: 'Linode 1024'
