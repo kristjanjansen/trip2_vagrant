@@ -136,11 +136,14 @@ sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
 sudo cp /vagrant/.htpasswd /etc/nginx/
 
+sudo sed -i "s/root \/var\/www\/trip2\/public;/root $3;/" /etc/nginx/sites-available/trip2
 sudo service nginx restart
 
 # Copying scripts
 
-sudo cp /vagrant/scripts/* $2/../.
+cd $2
+cd ..
+sudo cp /vagrant/scripts/* .
 
 # Generating ssh key
 
