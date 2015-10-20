@@ -127,20 +127,20 @@ sudo apt-get install -y redis-server
 sudo fallocate -l 4G /swapfile
 sudo chmod 600 /swapfile
 sudo mkswap /swapfile
-
-# You might need to to reenter this later 
-
 sudo swapon /swapfile
 
-
-# Final steps
+# Nginx setup
 
 sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
-
+sudo sed -i "s/root \/var\/www\/trip2\/public;/root $3;/" /etc/nginx/sites-available/trip2
 sudo cp /vagrant/.htpasswd /etc/nginx/
 
-sudo cp /vagrant/scripts/* /var/www/.
+# Copying scripts
+
+sudo cp /vagrant/scripts/* $2/../.
+
+# Generating ssh key
 
 sudo ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa
