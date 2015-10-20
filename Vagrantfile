@@ -25,7 +25,6 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell" do |s|
     s.path = "provision.sh"
-    s.args = [settings['global']['password']]
   end
 
   config.vm.provider :digital_ocean do |provider, override|
