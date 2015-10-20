@@ -25,7 +25,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell" do |s|
     s.path = "provision.sh"
-    s.args = [[settings['local']['db_password'], settings['local']['base_path'], settings['local']['public_path']]
+    s.args = [settings['local']['db_password'], settings['local']['base_path'], settings['local']['public_path']]
   end
 
   config.vm.provider :digital_ocean do |provider, override|
@@ -38,7 +38,7 @@ Vagrant.configure(2) do |config|
     provider.size = settings['digital_ocean']['plan']
     override.vm.provision "shell" do |s|
       s.path = "provision.sh"
-      s.args = [[settings['digital_ocean']['db_password'], settings['digital_ocean']['base_path'], settings['digital_ocean']['public_path']]
+      s.args = [settings['digital_ocean']['db_password'], settings['digital_ocean']['base_path'], settings['digital_ocean']['public_path']]
     end
   end
 
@@ -52,7 +52,7 @@ Vagrant.configure(2) do |config|
     provider.plan = settings['linode']['plan']
     override.vm.provision "shell" do |s|
       s.path = "provision.sh"
-      s.args = [[settings['linode']['db_password'], settings['linode']['base_path'], settings['linode']['public_path']]
+      s.args = [settings['linode']['db_password'], settings['linode']['base_path'], settings['linode']['public_path']]
     end
   end
 end
