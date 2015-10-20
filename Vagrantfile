@@ -11,15 +11,18 @@ Vagrant.configure(2) do |config|
 
   config.ssh.forward_agent = true
 
+  # config.vm.network "private_network", type: "dhcp"
+
   config.vm.synced_folder ".", "/vagrant"
 
-  config.vm.provider "virtualbox" do |provider|
-    provider.config.vm.synced_folder settings['local']['repo_path'], settings['local']['base_path'], group: 'www-data', owner: 'www-data'
-    provider.customize ["modifyvm", :id, "--memory", "2048"]
-    provider.vm.provision "shell" do |s|
-      s.path = "provision.sh"
-      s.args = [settings['local']['db_password'], settings['local']['base_path'],settings['local']['public_path']]
-    end
+  config.vm.provider "virtualbox" do |vb|
+    vb.config.vm.synced_folder settings['local']['repo_path'], settings['local']['base_path'], group: 'www-data', owner: 'www-data'
+    vb.customize ["modifyvm", :id, "--memory", "2048"]
+  end
+
+  config.vm.provision "shell" do |s|
+    s.path = "provision.sh"
+    s.args = [settings['local']['db_password'], settings['local']['base_path']]
   end
 
   config.vm.provider :digital_ocean do |provider, override|
@@ -31,8 +34,8 @@ Vagrant.configure(2) do |config|
     provider.token = settings['digital_ocean']['token']
     provider.size = settings['digital_ocean']['plan']
     provider.vm.provision "shell" do |s|
-      s.path = "provision.sh"
-      s.args = [settings['digital_ocean']['db_password'], settings['digital_ocean']['base_path'],settings['digital_ocean']['public_path']]
+      s.path = "provision2.sh"
+      s.args = settings['digital_ocean']['public_path']
     end
   end
 
@@ -45,8 +48,8 @@ Vagrant.configure(2) do |config|
     provider.api_key = settings['linode']['token']
     provider.plan = settings['linode']['plan']
     provider.vm.provision "shell" do |s|
-      s.path = "provision.sh"
-      s.args = [settings['linode']['db_password'], settings['linode']['base_path'],settings['linode']['public_path']]
+      s.path = "provision2.sh"
+      s.args = settings['linode']['public_path']
     end
   end
 
