@@ -1,10 +1,17 @@
-global:
-    password: secret
 local:
     trip_folder: ../trip2
+    local_path: /var/www/trip2
+    public_path: /var/www/trip2/public
+    password: secret
 digital_ocean:
+    base_path: /var/www/trip2
+    public_path: /var/www/trip2/public
+    password: secret
     token: ''
     plan: '512mb'
 linode:
+    base_path: /var/www/trip2
+    public_path: /var/www/trip2/public
+    password: secret
     token: ''
     plan: 'Linode 1024'
