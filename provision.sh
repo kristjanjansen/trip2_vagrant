@@ -134,8 +134,9 @@ sudo swapon /swapfile
 sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
-sudo sed -i "s/root \/var\/www\/trip2\/public;/root $3;/" /etc/nginx/sites-available/trip2
 sudo cp /vagrant/.htpasswd /etc/nginx/
+
+sudo service nginx restart
 
 # Copying scripts
 
