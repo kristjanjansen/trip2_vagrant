@@ -42,5 +42,7 @@ CONVERT_DEMOACCOUNTS=false
 IMAGE_DRIVER=imagick" >> .env
     
     php artisan migrate
+    sudo sed -i "s/MAIL_DRIVER=.*/MAIL_DRIVER=log/" .env
+
 
 fi
