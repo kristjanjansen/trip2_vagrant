@@ -4,7 +4,7 @@ env $(cat trip2/.env | xargs) slackcli -h servers -m "Starting updating code fro
 
 cd trip2
 git pull
-composer update --prefer-dist --no-interaction
+composer install --prefer-dist --no-interaction
 npm install --no-bin-links
 gulp
 php artisan optimize --force
