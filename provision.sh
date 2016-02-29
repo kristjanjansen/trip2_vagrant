@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export DEBIAN_FRONTEND=noninteractive
 
 # Upgrade
 
@@ -11,37 +12,30 @@ sudo apt-get upgrade -y
 
 sudo echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 sudo locale-gen en_US.UTF-8
-sudo ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
+# Repositories
 
-# Requisites
-
-sudo apt-get install software-properties-common -y
-sudo apt-get install build-essential -y
-sudo apt-get install curl -y
-sudo apt-get install unzip -y
-sudo apt-get install imagemagick -y
-sudo apt-get install apache2-utils -y
-
-sudo apt-get install -y dos2unix gcc git libmcrypt4 libpcre3-dev 
+sudo apt-get install -y software-properties-common build-essential curl unzip imagemagick apache2-utils dos2unix gcc git libmcrypt4 libpcre3-dev 
 
 sudo apt-add-repository ppa:nginx/stable -y
 sudo apt-add-repository ppa:rwky/redis -y
-sudo apt-add-repository ppa:chris-lea/node.js -y
-sudo apt-add-repository ppa:ondrej/php5-5.6 -y
+sudo apt-add-repository ppa:ondrej/php -y
+sudo curl --silent --location https://deb.nodesource.com/setup_5.x | bash -
 
 sudo apt-get update -y
 
+# Set timezone
+
+ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # PHP
 
-sudo apt-get install -y php5-cli php5-mysqlnd php5-json php5-curl php5-gd php5-mcrypt php5-memcached php5-imagick
-
+sudo apt-get install -y --force-yes php7.0-cli php7.0-dev php-mysql php-curl php-gd php-imagick php7.0-mcrypt php-mbstring php7.0-readline php-xml
 
 # Make MCrypt Available
 
-sudo ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
-sudo php5enmod mcrypt
+#sudo ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
+#sudo php5enmod mcrypt
 
 
 # Composer
@@ -53,38 +47,60 @@ sudo printf "\nPATH=\"/home/vagrant/.composer/vendor/bin:\$PATH\"\n" | tee -a /h
 
 # Set PHP CLI Settings
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/cli/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/cli/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php5/cli/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/cli/php.ini
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/memory_limit = .*/memory_limit = 512M/" /etc/php/7.0/cli/php.ini
+sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
 
 
 # Nginx and PHP-FPM
 
-sudo apt-get install -y nginx php5-fpm
+sudo apt-get install -y --force-yes nginx php7.0-fpm
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
 
 # Set Nginx settings
 
-sudo sed -i "s/http {/http {\n\nclient_max_body_size 100M;/" /etc/nginx/nginx.conf
+sudo sed -i "s/http {/http {\n\nclient_max_body_size 128M;/" /etc/nginx/nginx.conf
 
+# Setup Some PHP-FPM Options
 
-# Set PHP-FPM settings
+sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
+sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
+sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+sed -i "s/memory_limit = .*/memory_limit = 1024M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/post_max_size = .*/post_max_size = 128M/" /etc/php/7.0/fpm/php.ini
+sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
 
-sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php5/fpm/php.ini
-sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php5/fpm/php.ini
-sudo sed -i "s/memory_limit = .*/memory_limit = 1024M/" /etc/php5/fpm/php.ini
-sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php5/fpm/php.ini
+# Copy fastcgi_params to Nginx
 
-sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php5/fpm/php.ini
-sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 100M/" /etc/php5/fpm/php.ini
-
+sudo cat > /etc/nginx/fastcgi_params << EOF
+fastcgi_param   QUERY_STRING        \$query_string;
+fastcgi_param   REQUEST_METHOD      \$request_method;
+fastcgi_param   CONTENT_TYPE        \$content_type;
+fastcgi_param   CONTENT_LENGTH      \$content_length;
+fastcgi_param   SCRIPT_FILENAME     \$request_filename;
+fastcgi_param   SCRIPT_NAME     \$fastcgi_script_name;
+fastcgi_param   REQUEST_URI     \$request_uri;
+fastcgi_param   DOCUMENT_URI        \$document_uri;
+fastcgi_param   DOCUMENT_ROOT       \$document_root;
+fastcgi_param   SERVER_PROTOCOL     \$server_protocol;
+fastcgi_param   GATEWAY_INTERFACE   CGI/1.1;
+fastcgi_param   SERVER_SOFTWARE     nginx/\$nginx_version;
+fastcgi_param   REMOTE_ADDR     \$remote_addr;
+fastcgi_param   REMOTE_PORT     \$remote_port;
+fastcgi_param   SERVER_ADDR     \$server_addr;
+fastcgi_param   SERVER_PORT     \$server_port;
+fastcgi_param   SERVER_NAME     \$server_name;
+fastcgi_param   HTTPS           \$https if_not_empty;
+fastcgi_param   REDIRECT_STATUS     200;
+EOF
 
 # Restart
 
 sudo service nginx restart
-sudo service php5-fpm restart
+sudo service php7.0-fpm restart
 
 
 # Install MySQL
@@ -105,13 +121,12 @@ sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'%' ID
 # sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO 'server'@'%' IDENTIFIED BY 'secret' WITH GRANT OPTION;"
 # sudo mysql --user="root" --password="secret" -e "FLUSH PRIVILEGES;"
 
-sudo service mysql start
 sudo service mysql restart
+
+mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
 
 # Node
 
-sudo apt-add-repository ppa:chris-lea/node.js -y
-sudo apt-get update -y
 sudo apt-get install -y nodejs
 sudo /usr/bin/npm install -g gulp slack-cli
 
@@ -125,14 +140,9 @@ sudo apt-get install -y redis-server
 
 # Enable Swap Memory
 
-sudo fallocate -l 4G /swapfile
-sudo chmod 600 /swapfile
-sudo mkswap /swapfile
-
-# You might need to to reenter this later 
-
-sudo swapon /swapfile
-
+sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
+sudo /sbin/mkswap /var/swap.1
+sudo /sbin/swapon /var/swap.1
 
 # Final steps
 
