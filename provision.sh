@@ -150,8 +150,7 @@ sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
 
-sudo cp /vagrant/.htpasswd /etc/nginx/
+sudo service nginx restart
 
 sudo cp /vagrant/scripts/* /var/www/.
-
 sudo ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa
