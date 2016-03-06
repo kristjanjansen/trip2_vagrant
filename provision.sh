@@ -55,7 +55,7 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
 
 # Nginx and PHP-FPM
 
-sudo apt-get install -y --force-yes nginx php7.0-fpm
+sudo apt-get install -y --force-yes nginx nginx-extras php7.0-fpm 
 sudo rm /etc/nginx/sites-enabled/default
 sudo rm /etc/nginx/sites-available/default
 
