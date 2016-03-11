@@ -11,12 +11,10 @@ Vagrant.configure(2) do |config|
 
   config.ssh.forward_agent = true
 
-  # config.vm.network "private_network", type: "dhcp"
-
   config.vm.synced_folder ".", "/vagrant"
 
-  if !settings['digital_ocean']['token'] && !settings['linode']['token'] 
-    config.vm.synced_folder settings['local']['trip_folder'], "/var/www/trip2", group: 'www-data', owner: 'www-data'
+  if !settings['token']
+    config.vm.synced_folder settings['trip_folder'], "/var/www/trip2", group: 'www-data', owner: 'www-data'
   end
 
   config.vm.provider "virtualbox" do |vb|
@@ -36,8 +34,8 @@ Vagrant.configure(2) do |config|
     override.vm.box_url = 'https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box'
     provider.image = 'ubuntu-14-04-x64'
     provider.region = 'ams3'
-    provider.token = settings['digital_ocean']['token']
-    provider.size = settings['digital_ocean']['plan']
+    provider.token = settings['token']
+    provider.size = settings['plan']
   end
 
   config.vm.provider :linode do |provider, override|
@@ -46,8 +44,9 @@ Vagrant.configure(2) do |config|
     override.vm.box_url = "https://github.com/displague/vagrant-linode/raw/master/box/linode.box"
     provider.distribution = 'Ubuntu 14.04 LTS'
     provider.datacenter = 'frankfurt'
-    provider.api_key = settings['linode']['token']
-    provider.plan = settings['linode']['plan']
-    provider.label = settings['linode']['label']
+    provider.api_key = settings['token']
+    provider.plan = settings['plan']
+    provider.label = settings['label']
   end
+
 end

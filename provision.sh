@@ -148,6 +148,10 @@ sudo /sbin/swapon /var/swap.1
 
 if [ "$CACHE" = "true" ]; then
     sudo cp /vagrant/trip2_cache.nginx /etc/nginx/sites-available/trip2
+    mkdir /etc/nginx/cache
+    ## Add this to /etc/fstab
+    # tmpfs /etc/nginx/cache tmpfs defaults,size=128M 0 0
+
 else
     sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 fi
