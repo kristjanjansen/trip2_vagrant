@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "Usage: ./install.sh secret"
+    echo "Usage: ./install.sh local-db-password"
 else
 
     if [ ! -d "trip2" ]; then
