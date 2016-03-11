@@ -45,5 +45,6 @@ Vagrant.configure(2) do |config|
     provider.datacenter = 'frankfurt'
     provider.api_key = settings['linode']['token']
     provider.plan = settings['linode']['plan']
+    provider.label = settings['linode']['label']
   end
 end
