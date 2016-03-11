@@ -15,7 +15,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant"
 
-  if settings['local']['trip_folder']
+  if !settings['digital_ocean']['token'] && !settings['linode']['token'] 
     config.vm.synced_folder settings['local']['trip_folder'], "/var/www/trip2", group: 'www-data', owner: 'www-data'
   end
 
@@ -25,6 +25,9 @@ Vagrant.configure(2) do |config|
 
   config.vm.provision "shell" do |s|
     s.path = "provision.sh"
+    s.env = {
+      "CACHE" => settings['cache'] 
+    }
   end
 
   config.vm.provider :digital_ocean do |provider, override|
