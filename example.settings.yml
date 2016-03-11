@@ -6,4 +6,5 @@ digital_ocean:
 linode:
     token: ''
     plan: 'Linode 1024'
-    label: ''
+    label: 'test'
+cache: false

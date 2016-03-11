@@ -146,7 +146,12 @@ sudo /sbin/swapon /var/swap.1
 
 # Final steps
 
-sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
+if [ "$CACHE" = "true" ]; then
+    sudo cp /vagrant/trip2_cache.nginx /etc/nginx/sites-available/trip2
+else
+    sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
+fi
+
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
 
