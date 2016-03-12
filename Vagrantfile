@@ -24,7 +24,8 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell" do |s|
     s.path = "provision.sh"
     s.env = {
-      "CACHE" => settings['cache'] 
+      "CACHE" => settings['cache'], 
+      "ENVOYER" => settings['envoyer'] 
     }
   end
 
