@@ -13,9 +13,9 @@ sudo apt-get upgrade -y
 sudo echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 sudo locale-gen en_US.UTF-8
 
-# Repositories
+# Packages
 
-sudo apt-get install -y software-properties-common build-essential curl unzip imagemagick apache2-utils dos2unix gcc git libmcrypt4 libpcre3-dev 
+sudo apt-get install -y software-properties-common build-essential curl unzip imagemagick apache2-utils dos2unix gcc git libmcrypt4 libpcre3-dev supervisor
 
 sudo apt-add-repository ppa:nginx/stable -y
 sudo apt-add-repository ppa:rwky/redis -y

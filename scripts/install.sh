@@ -13,6 +13,7 @@ else
         cp .env.example .env
         php artisan key:generate
         npm install --no-bin-links
+        npm install gulp-sass@2
         gulp
 
         sudo chown -R www-data:www-data /var/www
