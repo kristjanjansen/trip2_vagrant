@@ -61,7 +61,7 @@ sudo rm /etc/nginx/sites-available/default
 
 # Set Nginx settings
 
-sudo sed -i "s/http {/http {\n\nclient_max_body_size 128M;/" /etc/nginx/nginx.conf
+# sudo sed -i "s/http {/http {\n\nclient_max_body_size 128M;/" /etc/nginx/nginx.conf
 
 # Setup Some PHP-FPM Options
 
@@ -144,7 +144,7 @@ sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
 sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
 
-# Final steps
+# Configuring Nginx
 
 if [ "$CACHE" = "true" ]; then
     sudo cp /vagrant/trip2_cache.nginx /etc/nginx/sites-available/trip2
@@ -156,10 +156,19 @@ else
     sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
 fi
 
+if [ "$ENVOYER" = "true" ]; then
+    sed -i "s/trip2\/public/trip2\/current\/public/" /etc/nginx/sites-available/trip2
+fi
+
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
 
 sudo service nginx restart
 
+# Copying scripts
+
 sudo cp /vagrant/scripts/* /var/www/.
+
+# Generating a SSH key
+
 sudo ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa
