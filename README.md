@@ -69,7 +69,6 @@ Also, set ```trip_folder: false```.
 
     vagrant plugin install vagrant-linode
     vagrant up --provider=linode
-    vagrant provision
     vagrant ssh
 
 ### When inside virtual machine
