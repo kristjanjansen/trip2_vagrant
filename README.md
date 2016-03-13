@@ -76,3 +76,4 @@ Also, set ```trip_folder: false```.
     cd /var/www
     git clone https://github.com/tripikad/trip2.git
     ./install.sh secret
+    
