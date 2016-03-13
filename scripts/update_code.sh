@@ -14,3 +14,4 @@ php artisan config:cache
 
 #cd ..
 #env $(cat trip2/.env | xargs) slackcli -h servers -m "Code updated from Github master" -u server
+
