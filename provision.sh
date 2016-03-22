@@ -32,12 +32,6 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 sudo apt-get install -y --force-yes php7.0-cli php7.0-dev php-mysql php-curl php-gd php-imagick php7.0-mcrypt php-mbstring php7.0-readline php-xml
 
-# Make MCrypt Available
-
-#sudo ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available
-#sudo php5enmod mcrypt
-
-
 # Composer
 
 sudo curl -sS https://getcomposer.org/installer | php
@@ -128,15 +122,11 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 # Node
 
 sudo apt-get install -y nodejs
-sudo /usr/bin/npm install -g gulp slack-cli
+sudo /usr/bin/npm install -g gulp
 
 # Redis
 
 sudo apt-get install -y redis-server
-
-# Other
-
-# sudo apt-get install -y memcached beanstalkd
 
 # Enable Swap Memory
 
@@ -146,28 +136,30 @@ sudo /sbin/swapon /var/swap.1
 
 # Configuring Nginx
 
-if [ "$CACHE" = "true" ]; then
-    sudo cp /vagrant/trip2_cache.nginx /etc/nginx/sites-available/trip2
-    mkdir /etc/nginx/cache
-    ## Add this to /etc/fstab
-    # tmpfs /etc/nginx/cache tmpfs defaults,size=128M 0 0
-
-else
-    sudo cp /vagrant/trip2.nginx /etc/nginx/sites-available/trip2
+if [ "$ENV" = "local" ]; then
+    sudo cp /vagrant/nginx/local /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/scripts/install.sh /var/www/.
+    sudo cp /vagrant/scripts/update_code.sh /var/www/.
+    sudo cp /vagrant/scripts/update_db.sh /var/www/.
 fi
 
-if [ "$ENVOYER" = "true" ]; then
-    sed -i "s/trip2\/public/trip2\/current\/public/" /etc/nginx/sites-available/trip2
+if [ "$ENV" = "staging" ]; then
+    sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/scripts/update_db.sh /var/www/.
+fi
+
+if [ "$ENV" = "production" ]; then
+    sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    mkdir /etc/nginx/cache
+    ## Add this to /etc/fstab
+    # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
 fi
 
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
 
 sudo service nginx restart
-
-# Copying scripts
-
-sudo cp /vagrant/scripts/* /var/www/.
 
 # Generating a SSH key
 

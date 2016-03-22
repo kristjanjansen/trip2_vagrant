@@ -9,7 +9,11 @@ else
     scp trip_admin@trip.ee:/home/trip_admin/trip.sql.gz .
     gunzip -c trip.sql.gz | mysql -uroot -p$1 trip
     rm trip.sql.gz
-    cd trip2
+    echo "
+    Database updated, now cd to trip2 directory and run:
+
     php artisan migrate:refresh
     php artisan convert:all
+    "
 fi
+
