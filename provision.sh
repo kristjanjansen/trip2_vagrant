@@ -159,6 +159,13 @@ fi
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo rm -R /var/www/html
 
+sudo sed -i "s/# gzip_vary/gzip_vary/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_proxied/gzip_proxied/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_comp_level/gzip_comp_level/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_buffers/gzip_buffers/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_http_version/gzip_http_version/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_types.*/gzip_types text\/plain text\/css application\/json application\/javascript text\/xml application\/xml application\/xml+rss application\/atom+xml text\/javascript image\/svg+xml image\/x-icon;/" /etc/nginx/nginx.conf
+
 sudo service nginx restart
 
 # Generating a SSH key
