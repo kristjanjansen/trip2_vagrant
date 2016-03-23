@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant"
 
-  if !settings['token']
+  if settings['environment'] == 'local'
     config.vm.synced_folder settings['trip_folder'], "/var/www/trip2", group: 'www-data', owner: 'www-data'
   end
 
@@ -24,8 +24,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell" do |s|
     s.path = "provision.sh"
     s.env = {
-      "CACHE" => settings['cache'], 
-      "ENVOYER" => settings['envoyer'] 
+      "ENVIRONMENT" => settings['environment'], 
     }
   end
 

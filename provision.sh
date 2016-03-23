@@ -50,8 +50,6 @@ sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/cli/php.ini
 # Nginx and PHP-FPM
 
 sudo apt-get install -y --force-yes nginx nginx-extras php7.0-fpm 
-sudo rm /etc/nginx/sites-enabled/default
-sudo rm /etc/nginx/sites-available/default
 
 # Set Nginx settings
 
@@ -136,19 +134,22 @@ sudo /sbin/swapon /var/swap.1
 
 # Configuring Nginx
 
-if [ "$ENV" = "local" ]; then
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo rm -f /etc/nginx/sites-available/default
+
+if [ "$ENVIRONMENT" = "local" ]; then
     sudo cp /vagrant/nginx/local /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/install.sh /var/www/.
     sudo cp /vagrant/scripts/update_code.sh /var/www/.
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
 fi
 
-if [ "$ENV" = "staging" ]; then
+if [ "$ENVIRONMENT" = "staging" ]; then
     sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
 fi
 
-if [ "$ENV" = "production" ]; then
+if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
     mkdir /etc/nginx/cache
@@ -157,7 +158,7 @@ if [ "$ENV" = "production" ]; then
 fi
 
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
-sudo rm -R /var/www/html
+sudo rm -Rf /var/www/html
 
 sudo sed -i "s/# gzip_vary/gzip_vary/" /etc/nginx/nginx.conf
 sudo sed -i "s/# gzip_proxied/gzip_proxied/" /etc/nginx/nginx.conf
