@@ -1,16 +1,15 @@
 # General config
 
+environment: local
+
+# Local config
+
 trip_folder: '../trip2'
-cache: false
 
 # Cloud provider config
 # Plans for Linode: 'Linode 1024', 'Linode 2048' etc
-# Plans for Digital Ocean: 512mb, 1gb etc
+# Plans for Digital Ocean: '512mb', '1gb' etc
 
 plan: 'Linode 1024'
 token: ''
-label: 'test'
-
-# Deployment config
-
-envoyer: false
+label: ''

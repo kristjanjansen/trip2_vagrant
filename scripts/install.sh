@@ -8,10 +8,16 @@ else
         echo "trip2 directory does not exist. Clone it from Github first"
     else
 
+        mv .env.local trip2/.
+
         cd trip2
-        composer install --prefer-source --no-interaction
-        cp .env.example .env
+        composer install --no-interaction
+
+        cp .env.local .env
         php artisan key:generate
+        sudo sed -i "s/DB_PASSWORD1=.*/DB_PASSWORD1=$1/" .env
+        sudo sed -i "s/DB_PASSWORD2=.*/DB_PASSWORD2=$1/" .env
+
         npm install --no-bin-links
         npm install gulp-sass@2
         gulp
@@ -24,31 +30,7 @@ else
         mysqladmin -uroot -p$1 create trip
         mysqladmin -uroot -p$1 create trip2
 
-        echo "
-
-    DB_HOST1=127.0.0.1
-    DB_DATABASE1=trip
-    DB_USERNAME1=root
-    DB_PASSWORD1=$1
-
-    DB_HOST2=127.0.0.1
-    DB_DATABASE2=trip2
-    DB_USERNAME2=root
-    DB_PASSWORD2=$1
-
-    DB_CONNECTION=trip2
-
-    CONVERT_TAKE=20
-    CONVERT_FILES=false
-    CONVERT_SCRAMBLE=true
-    CONVERT_OVERWRITE=false
-    CONVERT_FILEHASH=false
-    CONVERT_DEMOACCOUNTS=false
-
-    IMAGE_DRIVER=imagick" >> .env
-        
         php artisan migrate
-        sudo sed -i "s/MAIL_DRIVER=.*/MAIL_DRIVER=log/" .env
 
     fi
 

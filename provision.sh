@@ -120,7 +120,7 @@ mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret my
 # Node
 
 sudo apt-get install -y nodejs
-sudo /usr/bin/npm install -g gulp
+sudo /usr/bin/npm install -g gulp@3.9.0
 
 # Redis
 
@@ -142,6 +142,7 @@ if [ "$ENVIRONMENT" = "local" ]; then
     sudo cp /vagrant/scripts/install.sh /var/www/.
     sudo cp /vagrant/scripts/update_code.sh /var/www/.
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo cp /vagrant/env/.env.local /var/www/.
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
