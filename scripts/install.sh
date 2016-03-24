@@ -13,7 +13,7 @@ else
         cd trip2
         composer install --no-interaction
 
-        cp .env.local .env
+        mv .env.local .env
         php artisan key:generate
         sudo sed -i "s/DB_PASSWORD1=.*/DB_PASSWORD1=$1/" .env
         sudo sed -i "s/DB_PASSWORD2=.*/DB_PASSWORD2=$1/" .env
