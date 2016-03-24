@@ -27,6 +27,7 @@ else
         sudo chmod -R o+w storage/
         sudo chmod -R o+w public/images/
 
+        php artisan optimize --force
         php artisan cache:clear
         php artisan route:clear
         php artisan config:clear
