@@ -15,6 +15,7 @@ Vagrant.configure(2) do |config|
 
   if settings['environment'] == 'local'
     config.vm.synced_folder settings['trip_folder'], "/var/www/trip2", group: 'www-data', owner: 'www-data'
+    # config.vm.synced_folder settings['trip_folder'] + "/storage/app/images", "/var/www/trip2/public/images", group: 'www-data', owner: 'www-data'
   end
 
   config.vm.provider "virtualbox" do |vb|
