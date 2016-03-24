@@ -11,7 +11,7 @@ else
         mv .env.local trip2/.
 
         cd trip2
-        composer install --no-interaction
+        composer install --prefer-dist --no-interaction
 
         mv .env.local .env
         php artisan key:generate
@@ -26,6 +26,10 @@ else
         sudo chmod -R o+w bootstrap/cache/
         sudo chmod -R o+w storage/
         sudo chmod -R o+w public/images/
+
+        php artisan cache:clear
+        php artisan route:clear
+        php artisan config:clear
 
         mysqladmin -uroot -p$1 create trip
         mysqladmin -uroot -p$1 create trip2
