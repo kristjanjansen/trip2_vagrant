@@ -148,11 +148,15 @@ fi
 if [ "$ENVIRONMENT" = "staging" ]; then
     sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
+    (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
+    (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
     mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
