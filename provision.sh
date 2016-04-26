@@ -26,7 +26,7 @@ sudo apt-get update -y
 
 # Set timezone
 
-ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+sudo ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # PHP
 
@@ -57,13 +57,13 @@ sudo apt-get install -y --force-yes nginx php7.0-fpm
 
 # Setup Some PHP-FPM Options
 
-sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
-sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
-sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
-sed -i "s/memory_limit = .*/memory_limit = 1024M/" /etc/php/7.0/fpm/php.ini
-sed -i "s/upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php/7.0/fpm/php.ini
-sed -i "s/post_max_size = .*/post_max_size = 128M/" /etc/php/7.0/fpm/php.ini
-sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/error_reporting = .*/error_reporting = E_ALL/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/display_errors = .*/display_errors = On/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/memory_limit = .*/memory_limit = 1024M/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/upload_max_filesize = .*/upload_max_filesize = 128M/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/post_max_size = .*/post_max_size = 128M/" /etc/php/7.0/fpm/php.ini
+sudo sed -i "s/;date.timezone.*/date.timezone = UTC/" /etc/php/7.0/fpm/php.ini
 
 # Copy fastcgi_params to Nginx
 
@@ -115,7 +115,7 @@ sudo mysql --user="root" --password="secret" -e "GRANT ALL ON *.* TO root@'%' ID
 
 sudo service mysql restart
 
-mysql_tzinfo_to_sql /usr/share/zoneinfo | mysql --user=root --password=secret mysql
+sudo mysql_tzinfo_to_sql /usr/share/zoneinfo | sudo mysql --user=root --password=secret mysql
 
 # Node
 
@@ -148,11 +148,19 @@ fi
 if [ "$ENVIRONMENT" = "staging" ]; then
     sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo usermod -G sudo tripikas
+    sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+    sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
+    sudo service ssh restart
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo usermod -G sudo tripikas
+    sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+    sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
+    sudo service ssh restart
     mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
