@@ -1,6 +1,7 @@
 # General config
 
 environment: local
+db_password: secret
 
 # Local config
 

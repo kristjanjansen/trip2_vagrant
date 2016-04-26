@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "Usage: ./update.sh local-db-password remote-db-password"
+    echo "Usage: ./update.sh db_password remote_db_password"
 else
     mysqladmin -uroot -p$1 -f drop trip
     mysqladmin -uroot -p$1 create trip

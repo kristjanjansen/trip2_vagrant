@@ -25,7 +25,8 @@ Vagrant.configure(2) do |config|
   config.vm.provision "shell" do |s|
     s.path = "provision.sh"
     s.env = {
-      "ENVIRONMENT" => settings['environment'], 
+      "ENVIRONMENT" => settings['environment'],
+      "DB_PASSWORD" => settings['db_password'] 
     }
   end
 
