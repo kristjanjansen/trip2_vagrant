@@ -152,6 +152,8 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
     sudo service ssh restart
+    cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
+    (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
@@ -161,6 +163,8 @@ if [ "$ENVIRONMENT" = "production" ]; then
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
     sudo service ssh restart
+    cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
+    (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
     mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
