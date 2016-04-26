@@ -132,6 +132,14 @@ sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
 sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
 
+# Firewall
+
+sudo ufw enable
+# sudo ufw logging on
+sudo ufw allow 22
+sudo ufw allow 80
+sudo ufw allow 443
+
 # Configuring Nginx
 
 sudo rm -f /etc/nginx/sites-enabled/default
@@ -184,4 +192,4 @@ sudo service nginx restart
 
 # Generating a SSH key
 
-sudo ssh-keygen -t rsa -b 4096 -C "trip@trip.ee" -N "" -f ~/.ssh/id_rsa
+ssh-keygen -t rsa -b 4096 -C "$ENVIRONMENT@trip.ee" -N "" -f ~/.ssh/id_rsa
