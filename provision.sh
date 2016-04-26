@@ -7,7 +7,6 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update -y 
 sudo apt-get upgrade -y
 
-
 # Locale
 
 sudo echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
@@ -24,9 +23,10 @@ sudo curl --silent --location https://deb.nodesource.com/setup_5.x | bash -
 
 sudo apt-get update -y
 
-# Set timezone
+# Set timezone and time syncronization
 
 sudo ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+sudo apt-get install ntp
 
 # PHP
 
