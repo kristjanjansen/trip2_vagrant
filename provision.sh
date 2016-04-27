@@ -186,10 +186,12 @@ if [ "$ENVIRONMENT" = "staging" ]; then
 
     # Netdata
 
-    sudo apt-get install zlib1g-dev gcc make git autoconf autogen automake pkg-config
+    sudo apt-get -y install zlib1g-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
-    ./netdata-installer.sh
+    sudo ./netdata-installer.sh --dont-wait
+    sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
+    echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
     sudo cp /vagrant/supervisor/netdata.conf.staging /etc/supervisor/conf.d/netdata.conf
     sudo supervisorctl reread
     sudo supervisorctl update
@@ -202,7 +204,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo ufw allow 22/tcp
     sudo ufw allow 80/tcp
     sudo ufw allow 443/tcp
-    sudo ufw allow 19999/tcp
+    sudo ufw allow 19999/tcp # netdata
     sudo ufw enable -y
 
 fi
