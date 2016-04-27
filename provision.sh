@@ -192,6 +192,9 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo ./netdata-installer.sh --dont-wait
     sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
     echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
+    sudo sed -i "s/# debug log = .*/debug log = syslog/" /etc/netdata/netdata.conf
+    sudo sed -i "s/# error log = .*/error log = syslog/" /etc/netdata/netdata.conf
+    sudo sed -i "s/# access log = .*/access log = none/" /etc/netdata/netdata.conf
     sudo cp /vagrant/supervisor/netdata.conf.staging /etc/supervisor/conf.d/netdata.conf
     sudo supervisorctl reread
     sudo supervisorctl update
