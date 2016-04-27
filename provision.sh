@@ -132,41 +132,79 @@ sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=4096
 sudo /sbin/mkswap /var/swap.1
 sudo /sbin/swapon /var/swap.1
 
-# Firewall
-
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw enable -y
-
 # Configuring Nginx
 
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo rm -f /etc/nginx/sites-available/default
 
 if [ "$ENVIRONMENT" = "local" ]; then
+
+    # Nginx
+
     sudo cp /vagrant/nginx/local /etc/nginx/sites-available/trip2
+
+    # Scripts
+
     sudo cp /vagrant/scripts/install.sh /var/www/.
     sudo cp /vagrant/scripts/update_code.sh /var/www/.
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+
+    # Environment
+
     sudo cp /vagrant/env/.env.local /var/www/.
+
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
+
+    # Nginx
+
     sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
+    
+    # Scripts
+
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    
+    # Access
+
     sudo usermod -G sudo tripikas
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
     sudo service ssh restart
+    
+    # Cron
+
     cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
     (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
-    sudo cp /vagrant/supervisor/staging.conf /etc/supervisor/conf.d/queue.conf
+    
+    # Queue
+
+    sudo cp /vagrant/supervisor/queue.conf.staging /etc/supervisor/conf.d/queue.conf
     sudo supervisorctl reread
     sudo supervisorctl update
     sudo supervisorctl start queue:*
+
+    # Netdata
+
+    sudo apt-get install zlib1g-dev gcc make git autoconf autogen automake pkg-config
+    sudo git clone https://github.com/firehol/netdata.git --depth=1
+    cd netdata
+    ./netdata-installer.sh
+    sudo cp /vagrant/supervisor/netdata.conf.staging /etc/supervisor/conf.d/netdata.conf
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl start netdata:*
+
+    # Firewall
+
+    sudo ufw default deny incoming
+    sudo ufw default allow outgoing
+    sudo ufw allow 22/tcp
+    sudo ufw allow 80/tcp
+    sudo ufw allow 443/tcp
+    sudo ufw allow 19999/tcp
+    sudo ufw enable -y
+
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
