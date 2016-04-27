@@ -163,6 +163,10 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo service ssh restart
     cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
     (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
+    sudo cp /vagrant/supervisor/staging.conf /etc/supervisor/conf.d/queue.conf
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl start queue:*
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
