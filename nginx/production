@@ -1,6 +1,12 @@
 fastcgi_cache_path /etc/nginx/cache levels=1:2 keys_zone=TRIP2:256m inactive=60m use_temp_path=off; 
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 
+# server {
+#    
+#    server_name www.trip.ee;
+#    return 301 $scheme://trip.ee$request_uri;
+# }
+
 server {
 
     listen 80 default_server;
@@ -11,6 +17,7 @@ server {
     charset utf-8;
 
     server_name localhost;
+    # server_name trip.ee;
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
