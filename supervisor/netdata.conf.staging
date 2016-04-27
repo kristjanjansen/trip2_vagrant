@@ -1,9 +1,0 @@
-[program:netdata]
-process_name=%(program_name)s_%(process_num)02d
-command=/usr/sbin/netdata
-autostart=true
-autorestart=true
-user=netdata
-numprocs=1
-redirect_stderr=true
-stdout_logfile=syslog
