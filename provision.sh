@@ -197,7 +197,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo sed -i "s/# access log = .*/access log = none/" /etc/netdata/netdata.conf
     sudo sed -i "s/nothing./nothing.\n\n\/usr\/sbin\/netdata\n/" /etc/rc.local
 
-    echo "$ENVOYER_KEY" | sudo tee -a /home/tripikas/.ssh/authorized_keys > /dev/null
+    # echo "$ENVOYER_KEY" | sudo tee -a /home/tripikas/.ssh/authorized_keys > /dev/null
     
     # Firewall
 
