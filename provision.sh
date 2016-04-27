@@ -190,6 +190,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
     sudo ./netdata-installer.sh --dont-wait
+    sudo killall netdata
     sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
     echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
     sudo sed -i "s/# debug log = .*/debug log = syslog/" /etc/netdata/netdata.conf
