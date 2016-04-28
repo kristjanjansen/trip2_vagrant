@@ -196,8 +196,6 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo sed -i "s/# error log = .*/error log = syslog/" /etc/netdata/netdata.conf
     sudo sed -i "s/# access log = .*/access log = none/" /etc/netdata/netdata.conf
     sudo sed -i "s/nothing./nothing.\n\n\/usr\/sbin\/netdata\n/" /etc/rc.local
-
-    # echo "$ENVOYER_KEY" | sudo tee -a /home/tripikas/.ssh/authorized_keys > /dev/null
     
     # Firewall
 
@@ -208,6 +206,8 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo ufw allow 443/tcp
     sudo ufw allow 19999/tcp # netdata
     sudo ufw --force enable
+
+    # echo -e "\n" | sudo tee -a /home/tripikas/.ssh/authorized_keys > /dev/null
 
 fi
 

@@ -14,7 +14,3 @@ trip_folder: '../trip2'
 plan: 'Linode 1024'
 token: ''
 label: ''
-
-# Other config
-
-envoyer_key: ''
