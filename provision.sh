@@ -167,8 +167,8 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     
     # Access
 
-    sudo usermod -G sudo tripikas
-    sudo usermod -g www-data tripikas
+    sudo usermod -G sudo,www-data tripikas
+    sudo chown -R www-data:www-data /var/www
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
     sudo service ssh restart
