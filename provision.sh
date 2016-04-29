@@ -174,7 +174,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     # Access
 
     sudo usermod -G sudo,www-data tripikas
-    mkdir -f /var/www/trip2/storage/app/images
+    mkdir -p /var/www/trip2/storage/app/images
     sudo chgrp -R www-data /var/www
     sudo chmod -R g+rwx /var/www
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
