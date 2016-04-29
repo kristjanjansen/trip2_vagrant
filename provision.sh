@@ -137,6 +137,16 @@ sudo /sbin/swapon /var/swap.1
 sudo rm -f /etc/nginx/sites-enabled/default
 sudo rm -f /etc/nginx/sites-available/default
 
+sudo rm -Rf /var/www/html
+
+sudo sed -i "s/# gzip_vary/gzip_vary/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_proxied/gzip_proxied/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_comp_level/gzip_comp_level/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_buffers/gzip_buffers/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_http_version/gzip_http_version/" /etc/nginx/nginx.conf
+sudo sed -i "s/# gzip_types.*/gzip_types text\/plain text\/css application\/json application\/javascript text\/xml application\/xml application\/xml+rss application\/atom+xml text\/javascript image\/svg+xml image\/x-icon;/" /etc/nginx/nginx.conf
+
+
 if [ "$ENVIRONMENT" = "local" ]; then
 
     # Nginx
@@ -155,12 +165,8 @@ if [ "$ENVIRONMENT" = "local" ]; then
 
 fi
 
-if [ "$ENVIRONMENT" = "staging" ]; then
+if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
-    # Nginx
-
-    sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
-    
     # Scripts
 
     sudo cp /vagrant/scripts/update_db.sh /var/www/.
@@ -168,7 +174,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # Access
 
     sudo usermod -G sudo,www-data tripikas
-    mkdir -f /var/www/trip2/storage/app/images
+    mkdir -p /var/www/trip2/storage/app/images
     sudo chgrp -R www-data /var/www
     sudo chmod -R g+rwx /var/www
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
@@ -182,7 +188,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     
     # Queue
 
-    sudo cp /vagrant/supervisor/queue.conf.staging /etc/supervisor/conf.d/queue.conf
+    sudo cp /vagrant/supervisor/queue.conf /etc/supervisor/conf.d/queue.conf
     sudo supervisorctl reread
     sudo supervisorctl update
     sudo supervisorctl start queue:*
@@ -214,35 +220,27 @@ if [ "$ENVIRONMENT" = "staging" ]; then
 
     mysqladmin -uroot -psecret create trip
     mysqladmin -uroot -psecret create trip2
-    
+
+fi
+
+if [ "$ENVIRONMENT" = "staging" ]; then
+
+    sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
+    ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
+
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
+
     sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
-    sudo cp /vagrant/scripts/update_db.sh /var/www/.
-    sudo usermod -G sudo tripikas
-    sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
-    sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
-    sudo service ssh restart
-    cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
-    (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
     mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
+    ssh-keygen -t rsa -b 4096 -C "production@trip.ee" -N "" -f ~/.ssh/id_rsa
+
 fi
 
+# Final Nginx setup
+
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
-sudo rm -Rf /var/www/html
-
-sudo sed -i "s/# gzip_vary/gzip_vary/" /etc/nginx/nginx.conf
-sudo sed -i "s/# gzip_proxied/gzip_proxied/" /etc/nginx/nginx.conf
-sudo sed -i "s/# gzip_comp_level/gzip_comp_level/" /etc/nginx/nginx.conf
-sudo sed -i "s/# gzip_buffers/gzip_buffers/" /etc/nginx/nginx.conf
-sudo sed -i "s/# gzip_http_version/gzip_http_version/" /etc/nginx/nginx.conf
-sudo sed -i "s/# gzip_types.*/gzip_types text\/plain text\/css application\/json application\/javascript text\/xml application\/xml application\/xml+rss application\/atom+xml text\/javascript image\/svg+xml image\/x-icon;/" /etc/nginx/nginx.conf
-
 sudo service nginx restart
-
-# Generating a SSH key
-
-ssh-keygen -t rsa -b 4096 -C "$ENVIRONMENT@trip.ee" -N "" -f ~/.ssh/id_rsa
