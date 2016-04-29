@@ -151,17 +151,17 @@ if [ "$ENVIRONMENT" = "local" ]; then
 
     # Nginx
 
-    sudo cp /vagrant/nginx/local /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/config/local/nginx /etc/nginx/sites-available/trip2
 
     # Scripts
 
-    sudo cp /vagrant/scripts/install.sh /var/www/.
-    sudo cp /vagrant/scripts/update_code.sh /var/www/.
-    sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo cp /vagrant/config/local/install.sh /var/www/.
+    sudo cp /vagrant/config/local/update_code.sh /var/www/.
+    sudo cp /vagrant/config/shared/update_db.sh /var/www/.
 
     # Environment
 
-    sudo cp /vagrant/env/.env.local /var/www/.
+    sudo cp /vagrant/config/local/.env /var/www/.
 
 fi
 
@@ -169,7 +169,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Scripts
 
-    sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo cp /vagrant/config/shared/update_db.sh /var/www/.
     
     # Access
 
@@ -188,7 +188,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     
     # Queue
 
-    sudo cp /vagrant/supervisor/queue.conf /etc/supervisor/conf.d/queue.conf
+    sudo cp /vagrant/config/shared/queue.conf /etc/supervisor/conf.d/queue.conf
     sudo supervisorctl reread
     sudo supervisorctl update
     sudo supervisorctl start queue:*
@@ -225,15 +225,15 @@ fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
 
-    sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/config/staging/nginx /etc/nginx/sites-available/trip2
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
 
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
 
-    sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
-    mkdir /etc/nginx/cache
+    sudo cp /vagrant/config/production/nginx /etc/nginx/sites-available/trip2
+    sudo mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
     ssh-keygen -t rsa -b 4096 -C "production@trip.ee" -N "" -f ~/.ssh/id_rsa
