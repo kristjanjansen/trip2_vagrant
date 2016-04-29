@@ -210,8 +210,11 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo ufw allow 19999/tcp # netdata
     sudo ufw --force enable
 
-    # echo -e "\n" | sudo tee -a /home/tripikas/.ssh/authorized_keys > /dev/null
+    # Final setup
 
+    mysqladmin -uroot -psecret create trip
+    mysqladmin -uroot -psecret create trip2
+    
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
