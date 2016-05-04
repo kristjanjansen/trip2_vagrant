@@ -173,11 +173,13 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     
     # Access
 
-    sudo usermod -G sudo,www-data tripikas
+    sudo usermod -G sudo tripikas
     mkdir -p /var/www/trip2/storage/app/images
-    # sudo chown -R tripikas:tripikas /var/www
+    sudo chown -R www-data:www-data /var/www
+    sudo chmod -R g+rwx /var/www
+    
+    # sudo usermod -G sudo,www-data tripikas
     # sudo chgrp -R www-data /var/www
-    # sudo chmod -R g+rwx /var/www
     #sudo chown -R tripikas:www-data /var/www
     #sudo find /var/www -type f -exec chmod 660 {} \;
     #sudo find /var/www -type d -exec chmod 2770 {} \;
@@ -190,7 +192,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     #sudo service nginx restart
     #sudo service php7.0-fpm restart
 
-    sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+    # sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
     sudo service ssh restart
     
