@@ -174,7 +174,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     # Access
 
     sudo usermod -G sudo tripikas
-    mkdir -p /var/www/trip2/storage/app/images
+    sudo mkdir -p /var/www/trip2/storage/app/images
     sudo chown -R www-data:www-data /var/www
     sudo chmod -R g+rwx /var/www
     
