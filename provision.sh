@@ -173,7 +173,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     
     # Access
 
-    sudo usermod -G sudo tripikas
+    # sudo usermod -G sudo tripikas
     sudo mkdir -p /var/www/trip2/storage/app/images
     sudo chown -R www-data:www-data /var/www
     sudo chmod -R g+rwx /var/www
@@ -213,7 +213,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo apt-get -y install zlib1g-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
-    sudo ./netdata-installer.sh --dont-wait
+    sudo ./netdata-installer.sh --dont-wait > /dev/null
     sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
     echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
     sudo sed -i "s/# debug log = .*/debug log = syslog/" /etc/netdata/netdata.conf
