@@ -175,19 +175,20 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     sudo usermod -G sudo,www-data tripikas
     mkdir -p /var/www/trip2/storage/app/images
+    # sudo chown -R tripikas:tripikas /var/www
     # sudo chgrp -R www-data /var/www
     # sudo chmod -R g+rwx /var/www
     #sudo chown -R tripikas:www-data /var/www
     #sudo find /var/www -type f -exec chmod 660 {} \;
     #sudo find /var/www -type d -exec chmod 2770 {} \;
-    sudo sed -i "s/user www-data;/user tripikas;/" /etc/nginx/nginx.conf
-    sudo sed -i "s/user = www-data/user = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
-    sudo sed -i "s/group = www-data/group = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
-    sudo sed -i "s/listen\.owner.*/listen.owner = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
-    sudo sed -i "s/listen\.group.*/listen.group = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
-    sudo sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
-    sudo service nginx restart
-    sudo service php7.0-fpm restart
+    #sudo sed -i "s/user www-data;/user tripikas;/" /etc/nginx/nginx.conf
+    #sudo sed -i "s/user = www-data/user = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
+    #sudo sed -i "s/group = www-data/group = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
+    #sudo sed -i "s/listen\.owner.*/listen.owner = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
+    #sudo sed -i "s/listen\.group.*/listen.group = tripikas/" /etc/php/7.0/fpm/pool.d/www.conf
+    #sudo sed -i "s/;listen\.mode.*/listen.mode = 0666/" /etc/php/7.0/fpm/pool.d/www.conf
+    #sudo service nginx restart
+    #sudo service php7.0-fpm restart
 
     sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
