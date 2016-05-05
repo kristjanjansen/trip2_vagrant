@@ -217,12 +217,12 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo ufw allow 80/tcp
     sudo ufw allow 443/tcp
     sudo ufw allow 19999/tcp # netdata
-    sudo ufw --force enable
+    # sudo ufw --force enable
 
     # Final setup
 
-    mysqladmin -uroot -psecret create trip
-    mysqladmin -uroot -psecret create trip2
+    mysqladmin -uroot -p$DB_PASSWORD create trip
+    mysqladmin -uroot -p$DB_PASSWORD create trip2
 
 fi
 
