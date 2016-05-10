@@ -247,3 +247,4 @@ fi
 
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo service nginx restart
+sudo service php7.0-fpm restart
