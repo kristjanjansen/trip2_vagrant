@@ -8,18 +8,17 @@ else
         echo "trip2 directory does not exist. Clone it from Github first"
     else
 
-        mv .env.local trip2/.
-
         cd trip2
+
         composer install --prefer-dist --no-interaction
 
-        mv .env.local .env
+        cp ../.env.local .env
+
         php artisan key:generate
         sudo sed -i "s/DB_PASSWORD1=.*/DB_PASSWORD1=$1/" .env
         sudo sed -i "s/DB_PASSWORD2=.*/DB_PASSWORD2=$1/" .env
 
         npm install --no-bin-links
-        npm install gulp-sass@2
         gulp
 
         sudo chown -R www-data:www-data /var/www

@@ -5,7 +5,6 @@ cd trip2
 git pull
 composer install --no-interaction
 npm install --no-bin-links
-npm install gulp-sass@2
 gulp
 
 php artisan optimize --force
