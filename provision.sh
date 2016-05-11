@@ -156,9 +156,9 @@ if [ "$ENVIRONMENT" = "local" ]; then
     # Scripts
 
     sudo mkdir /var/www/scripts
-    sudo cp /vagrant/config/local/install.sh /var/www/scripts/.
-    sudo cp /vagrant/config/local/update_code.sh /var/www/scripts/.
+    sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
     sudo cp /vagrant/config/shared/update_db.sh /var/www/scripts/.
+    sudo cp /vagrant/config/local/deploy.sh /var/www/scripts/.
 
     # Environment
 
@@ -231,25 +231,45 @@ fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
 
+    # Scripts
+
+    # sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
     # sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     # sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
     # sudo cp /vagrant/config/staging/deploy.yaml /var/www/scripts/.
 
+    # Nginx 
+
     sudo cp /vagrant/config/staging/nginx /etc/nginx/sites-available/trip2
+    
+    # SSH key
+
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
 
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
 
+    # Scripts
+
+    sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
     sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
     sudo cp /vagrant/config/production/deploy.yaml /var/www/scripts/.
+
+    # Environment
+
+    sudo cp /vagrant/config/production/.env /var/www/.
+
+    # Nginx
 
     sudo cp /vagrant/config/production/nginx /etc/nginx/sites-available/trip2
     sudo mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
+    
+    # SSH key
+
     ssh-keygen -t rsa -b 4096 -C "production@trip.ee" -N "" -f ~/.ssh/id_rsa
 
 fi

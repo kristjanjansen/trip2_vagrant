@@ -8,23 +8,23 @@ else
         echo "trip2 directory does not exist. Clone it from Github first"
     else
 
-        cd trip2
+        cd ../trip2
+
+        cp ../.env .env
 
         composer install --prefer-dist --no-interaction
-
-        cp ../.env.local .env
 
         php artisan key:generate
         sudo sed -i "s/DB_PASSWORD1=.*/DB_PASSWORD1=$1/" .env
         sudo sed -i "s/DB_PASSWORD2=.*/DB_PASSWORD2=$1/" .env
 
-        npm install --no-bin-links
+        npm install
         gulp
 
         sudo chown -R www-data:www-data /var/www
         sudo chmod -R o+w bootstrap/cache/
         sudo chmod -R o+w storage/
-        sudo chmod -R o+w public/images/
+        # sudo chmod -R o+w public/images/
 
         php artisan optimize --force
         php artisan cache:clear
