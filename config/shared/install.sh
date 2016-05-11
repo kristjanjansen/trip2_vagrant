@@ -21,10 +21,19 @@ else
         npm install
         gulp
 
+
         sudo chown -R www-data:www-data /var/www
         sudo chmod -R o+w bootstrap/cache/
         sudo chmod -R o+w storage/
-        # sudo chmod -R o+w public/images/
+        
+        mkdir -p storage/app/images/large
+        mkdir -p storage/app/images/medium
+        mkdir -p storage/app/images/original
+        mkdir -p storage/app/images/small
+        mkdir -p storage/app/images/small_square
+        mkdir -p storage/app/images/xsmall_square
+
+        sudo ln -s storage/app/images public/images
 
         php artisan optimize --force
         php artisan cache:clear
