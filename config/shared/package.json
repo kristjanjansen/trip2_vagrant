@@ -1,0 +1,9 @@
+{
+  "name": "scripts",
+  "private": true,
+  "dependencies": {
+    "github-webhook-handler": "~0.5.0",
+    "js-yaml": "~3.6.0",
+    "slack-notify": "~0.1.6"
+  }
+}

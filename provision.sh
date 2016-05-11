@@ -155,9 +155,10 @@ if [ "$ENVIRONMENT" = "local" ]; then
 
     # Scripts
 
-    sudo cp /vagrant/config/local/install.sh /var/www/.
-    sudo cp /vagrant/config/local/update_code.sh /var/www/.
-    sudo cp /vagrant/config/shared/update_db.sh /var/www/.
+    sudo mkdir /var/www/scripts
+    sudo cp /vagrant/config/local/install.sh /var/www/scripts/.
+    sudo cp /vagrant/config/local/update_code.sh /var/www/scripts/.
+    sudo cp /vagrant/config/shared/update_db.sh /var/www/scripts/.
 
     # Environment
 
@@ -169,8 +170,9 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Scripts
 
-    sudo cp /vagrant/config/shared/update_db.sh /var/www/.
-    
+    sudo mkdir /var/www/scripts
+    sudo cp /vagrant/config/shared/update_db.sh /var/www/scripts/.
+
     # Access
 
     # sudo usermod -G sudo tripikas
@@ -201,9 +203,9 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo apt-get -y install zlib1g-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
-    sudo ./netdata-installer.sh --dont-wait > /dev/null
+    sudo ./netdata-installer.sh --dont-wait > /dev/null 2>&1
     sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
-    echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
+    echo "mysql_opts[trip2]=\"-u root -p$DB_PASSWORD\"" | sudo tee /etc/netdata/mysql.conf
     sudo sed -i "s/# debug log = .*/debug log = syslog/" /etc/netdata/netdata.conf
     sudo sed -i "s/# error log = .*/error log = syslog/" /etc/netdata/netdata.conf
     sudo sed -i "s/# access log = .*/access log = none/" /etc/netdata/netdata.conf
@@ -216,6 +218,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo ufw allow 22/tcp
     sudo ufw allow 80/tcp
     sudo ufw allow 443/tcp
+    sudo ufw allow 3333/tcp # github
     sudo ufw allow 19999/tcp # netdata
     # sudo ufw --force enable
 
@@ -228,12 +231,20 @@ fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
 
+    # sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
+    # sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
+    # sudo cp /vagrant/config/staging/deploy.yaml /var/www/scripts/.
+
     sudo cp /vagrant/config/staging/nginx /etc/nginx/sites-available/trip2
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
 
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
+
+    sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
+    sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
+    sudo cp /vagrant/config/production/deploy.yaml /var/www/scripts/.
 
     sudo cp /vagrant/config/production/nginx /etc/nginx/sites-available/trip2
     sudo mkdir /etc/nginx/cache
