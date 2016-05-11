@@ -151,17 +151,17 @@ if [ "$ENVIRONMENT" = "local" ]; then
 
     # Nginx
 
-    sudo cp /vagrant/nginx/local /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/config/local/nginx /etc/nginx/sites-available/trip2
 
     # Scripts
 
-    sudo cp /vagrant/scripts/install.sh /var/www/.
-    sudo cp /vagrant/scripts/update_code.sh /var/www/.
-    sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo cp /vagrant/config/local/install.sh /var/www/.
+    sudo cp /vagrant/config/local/update_code.sh /var/www/.
+    sudo cp /vagrant/config/shared/update_db.sh /var/www/.
 
     # Environment
 
-    sudo cp /vagrant/env/.env.local /var/www/.
+    sudo cp /vagrant/config/local/.env /var/www/.
 
 fi
 
@@ -169,18 +169,21 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Scripts
 
-    sudo cp /vagrant/scripts/update_db.sh /var/www/.
+    sudo cp /vagrant/config/shared/update_db.sh /var/www/.
     
     # Access
 
-    sudo usermod -G sudo,www-data tripikas
-    mkdir -p /var/www/trip2/storage/app/images
-    sudo chgrp -R www-data /var/www
-    sudo chmod -R g+rwx /var/www
-    sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
+    # sudo usermod -G sudo tripikas
+    # sudo sed -i "s/PermitRootLogin yes/PermitRootLogin no/" /etc/ssh/sshd_config
     sudo sed -i "s/#PasswordAuthentication yes/PasswordAuthentication no/" /etc/ssh/sshd_config 
     sudo service ssh restart
-    
+
+    # Permissions
+
+    #sudo mkdir -p /var/www/trip2/storage/app/images
+    #sudo chown -R www-data:www-data /var/www
+    #sudo chmod -R g+rwx /var/www
+
     # Cron
 
     cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
@@ -188,7 +191,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     
     # Queue
 
-    sudo cp /vagrant/supervisor/queue.conf /etc/supervisor/conf.d/queue.conf
+    sudo cp /vagrant/config/shared/queue.conf /etc/supervisor/conf.d/queue.conf
     sudo supervisorctl reread
     sudo supervisorctl update
     sudo supervisorctl start queue:*
@@ -198,7 +201,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo apt-get -y install zlib1g-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
-    sudo ./netdata-installer.sh --dont-wait
+    sudo ./netdata-installer.sh --dont-wait > /dev/null
     sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
     echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
     sudo sed -i "s/# debug log = .*/debug log = syslog/" /etc/netdata/netdata.conf
@@ -214,26 +217,26 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo ufw allow 80/tcp
     sudo ufw allow 443/tcp
     sudo ufw allow 19999/tcp # netdata
-    sudo ufw --force enable
+    # sudo ufw --force enable
 
     # Final setup
 
-    mysqladmin -uroot -psecret create trip
-    mysqladmin -uroot -psecret create trip2
+    mysqladmin -uroot -p$DB_PASSWORD create trip
+    mysqladmin -uroot -p$DB_PASSWORD create trip2
 
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
 
-    sudo cp /vagrant/nginx/staging /etc/nginx/sites-available/trip2
+    sudo cp /vagrant/config/staging/nginx /etc/nginx/sites-available/trip2
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
 
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
 
-    sudo cp /vagrant/nginx/production /etc/nginx/sites-available/trip2
-    mkdir /etc/nginx/cache
+    sudo cp /vagrant/config/production/nginx /etc/nginx/sites-available/trip2
+    sudo mkdir /etc/nginx/cache
     ## Add this to /etc/fstab
     # tmpfs /etc/nginx/cache tmpfs defaults,size=256M 0 0
     ssh-keygen -t rsa -b 4096 -C "production@trip.ee" -N "" -f ~/.ssh/id_rsa
@@ -244,3 +247,4 @@ fi
 
 sudo ln -fs /etc/nginx/sites-available/trip2 /etc/nginx/sites-enabled/trip2
 sudo service nginx restart
+sudo service php7.0-fpm restart
