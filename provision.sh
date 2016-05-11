@@ -244,7 +244,7 @@ if [ "$ENVIRONMENT" = "production" ]; then
 
     sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
-    sudo cp /vagrant/config/staging/deploy.yaml /var/www/scripts/.
+    sudo cp /vagrant/config/production/deploy.yaml /var/www/scripts/.
 
     sudo cp /vagrant/config/production/nginx /etc/nginx/sites-available/trip2
     sudo mkdir /etc/nginx/cache
