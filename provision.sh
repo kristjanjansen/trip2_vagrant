@@ -155,7 +155,7 @@ if [ "$ENVIRONMENT" = "local" ]; then
 
     # Scripts
 
-    mkdir /var/www/scripts
+    sudo mkdir /var/www/scripts
     sudo cp /vagrant/config/local/install.sh /var/www/scripts/.
     sudo cp /vagrant/config/local/update_code.sh /var/www/scripts/.
     sudo cp /vagrant/config/shared/update_db.sh /var/www/scripts/.
@@ -170,6 +170,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Scripts
 
+    sudo mkdir /var/www/scripts
     sudo cp /vagrant/config/shared/update_db.sh /var/www/scripts/.
 
     # Access
@@ -202,9 +203,9 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo apt-get -y install zlib1g-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
-    sudo ./netdata-installer.sh --dont-wait > /dev/null
+    sudo ./netdata-installer.sh --dont-wait > /dev/null 2>&1
     sudo sed -i "s/compile:/php-fpm: php-fpm7.0\ncompile:/" /etc/netdata/apps_groups.conf
-    echo 'mysql_opts[trip2]="-u root -p$DB_PASSWORD"' | sudo tee /etc/netdata/mysql.conf
+    echo "mysql_opts[trip2]=\"-u root -p$DB_PASSWORD\"" | sudo tee /etc/netdata/mysql.conf
     sudo sed -i "s/# debug log = .*/debug log = syslog/" /etc/netdata/netdata.conf
     sudo sed -i "s/# error log = .*/error log = syslog/" /etc/netdata/netdata.conf
     sudo sed -i "s/# access log = .*/access log = none/" /etc/netdata/netdata.conf
