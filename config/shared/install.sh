@@ -4,7 +4,7 @@ if [ $# -eq 0 ]; then
     echo "Usage: ./install.sh db_password"
 else
 
-    if [ ! -d "trip2" ]; then
+    if [ ! -d "../trip2" ]; then
         echo "trip2 directory does not exist. Clone it from Github first"
     else
 
