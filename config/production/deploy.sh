@@ -17,7 +17,7 @@ sudo chown -R www-data:www-data /var/www
 sudo chmod -R o+w storage/
 sudo chmod -R o+w bootstrap/cache/
 
-php artisan migrate
+php artisan migrate --force
 
 sudo rm -R /etc/nginx/cache/*
 sudo service nginx restart
