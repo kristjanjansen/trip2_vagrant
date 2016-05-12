@@ -222,11 +222,6 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo ufw allow 19999/tcp # netdata
     # sudo ufw --force enable
 
-    # Final setup
-
-    mysqladmin -uroot -p$DB_PASSWORD create trip
-    mysqladmin -uroot -p$DB_PASSWORD create trip2
-
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
@@ -245,6 +240,11 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # SSH key
 
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
+
+    # Databases
+
+    mysqladmin -uroot -p$DB_PASSWORD create trip
+    mysqladmin -uroot -p$DB_PASSWORD create trip2
 
 fi
 
