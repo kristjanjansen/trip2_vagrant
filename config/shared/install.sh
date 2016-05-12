@@ -21,20 +21,19 @@ else
         npm install
         gulp
 
+        mkdir -p /var/www/trip2/storage/app/images/large
+        mkdir -p /var/www/trip2/storage/app/images/medium
+        mkdir -p /var/www/trip2/storage/app/images/original
+        mkdir -p /var/www/trip2/storage/app/images/small
+        mkdir -p /var/www/trip2/storage/app/images/small_square
+        mkdir -p /var/www/trip2/storage/app/images/xsmall_square
 
-        sudo chown -R www-data:www-data /var/www
-        sudo chmod -R o+w bootstrap/cache/
-        sudo chmod -R o+w storage/
+        sudo ln -s /var/www/trip2/storage/app/images /var/www/trip2/public/images
+
+        sudo chown -R www-data:www-data /var/www/trip2
+        sudo chmod -R o+w /var/www/trip2/bootstrap/cache/
+        sudo chmod -R o+w /var/www/trip2/storage/
         
-        mkdir -p storage/app/images/large
-        mkdir -p storage/app/images/medium
-        mkdir -p storage/app/images/original
-        mkdir -p storage/app/images/small
-        mkdir -p storage/app/images/small_square
-        mkdir -p storage/app/images/xsmall_square
-
-        sudo ln -s storage/app/images public/images
-
         php artisan optimize --force
         php artisan cache:clear
         php artisan route:clear
