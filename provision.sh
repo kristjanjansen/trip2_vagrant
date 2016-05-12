@@ -194,13 +194,6 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
     (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
-    
-    # Queue
-
-    sudo cp /vagrant/config/shared/queue.conf /etc/supervisor/conf.d/queue.conf
-    sudo supervisorctl reread
-    sudo supervisorctl update
-    sudo supervisorctl start queue:*
 
     # Netdata
 
@@ -238,6 +231,12 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # sudo cp /vagrant/config/staging/deploy.yaml /var/www/scripts/.
     # sudo cp /vagrant/config/staging/deploy.sh /var/www/scripts/.
 
+    # Queue
+
+    # sudo cp /vagrant/config/staging/queue.conf /etc/supervisor/conf.d/queue.conf
+    # sudo supervisorctl reread
+    # sudo supervisorctl update
+    # sudo supervisorctl start queue:*
 
     # Nginx 
 
@@ -270,6 +269,13 @@ if [ "$ENVIRONMENT" = "production" ]; then
     # Environment
 
     sudo cp /vagrant/config/production/.env /var/www/.
+
+    # Queue
+
+    sudo cp /vagrant/config/production/queue.conf /etc/supervisor/conf.d/queue.conf
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl start queue:*
 
     # Nginx
 
