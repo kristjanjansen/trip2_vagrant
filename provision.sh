@@ -164,6 +164,10 @@ if [ "$ENVIRONMENT" = "local" ]; then
 
     sudo cp /vagrant/config/local/.env /var/www/.
 
+    # SSH key
+
+    sudo ssh-keygen -t rsa -b 4096 -C "local@trip.ee" -N "" -f ~/.ssh/id_rsa
+
 fi
 
 if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
