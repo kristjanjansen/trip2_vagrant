@@ -228,9 +228,16 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
     # sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     # sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
-    # sudo cp /vagrant/config/staging/deploy.yaml /var/www/scripts/.
     # sudo cp /vagrant/config/staging/deploy.sh /var/www/scripts/.
+    # sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
 
+    # sudo sed -i "s/environment: .*/environment: production/" /var/www/scripts/deploy.yaml
+    # sudo sed -i "s/branch: .*/branch: master/" /var/www/scripts/deploy.yaml
+    # sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
+
+    # cd /var/www/scripts
+    # npm install
+    
     # Queue
 
     # sudo cp /vagrant/config/staging/queue.conf /etc/supervisor/conf.d/queue.conf
@@ -260,8 +267,12 @@ if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
     sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
-    sudo cp /vagrant/config/production/deploy.yaml /var/www/scripts/.
     sudo cp /vagrant/config/production/deploy.sh /var/www/scripts/.
+    sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
+
+    sudo sed -i "s/environment: .*/environment: production/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/branch: .*/branch: v1/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
 
     cd /var/www/scripts
     npm install

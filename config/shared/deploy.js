@@ -39,7 +39,7 @@ handler.on('push', function (ev) {
             
             slack.send({
                 channel: '#servers',
-                icon_emoji: ':beach_with_umbrella:',
+                icon_emoji: config.emoji,
                 username: config.environment,
                 text: 'A new commit has been deployed',
                 fields: {
