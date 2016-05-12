@@ -236,6 +236,8 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     # sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
     # sudo cp /vagrant/config/staging/deploy.yaml /var/www/scripts/.
+    # sudo cp /vagrant/config/staging/deploy.sh /var/www/scripts/.
+
 
     # Nginx 
 
@@ -260,6 +262,10 @@ if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
     sudo cp /vagrant/config/production/deploy.yaml /var/www/scripts/.
+    sudo cp /vagrant/config/production/deploy.sh /var/www/scripts/.
+
+    cd /var/www/scripts
+    npm install
 
     # Environment
 
