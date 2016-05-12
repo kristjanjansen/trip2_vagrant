@@ -46,7 +46,8 @@ handler.on('push', function (ev) {
                     'Message': ev.payload.head_commit.message,
                     'Committer': ev.payload.head_commit.committer.name,
                     'Link': ev.payload.head_commit.url,
-                    'Output': stdout + stderr
+                    'Output': stdout,
+                    'Errors': stderr
                 }
             })
 
