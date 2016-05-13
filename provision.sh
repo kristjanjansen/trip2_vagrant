@@ -217,7 +217,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo ufw allow 443/tcp
     sudo ufw allow 3333/tcp # github
     sudo ufw allow 19999/tcp # netdata
-    # sudo ufw --force enable
+    sudo ufw --force enable
 
     # Queue
 
@@ -243,6 +243,7 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo sed -i "s/environment: .*/environment: staging/" /var/www/scripts/deploy.yaml
     sudo sed -i "s/branch: .*/branch: master/" /var/www/scripts/deploy.yaml
     sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/emoji: .*/emoji: \":robot_face:\"/" /var/www/scripts/deploy.yaml
 
     cd /var/www/scripts
     npm install
