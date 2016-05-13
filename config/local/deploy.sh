@@ -12,5 +12,8 @@ php artisan cache:clear
 php artisan route:clear
 php artisan config:clear
 
+sudo chown -R www-data:www-data /var/www/trip2
+sudo chmod -R o+w storage/
+sudo chmod -R o+w bootstrap/cache/
 
-
+    
