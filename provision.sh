@@ -23,6 +23,10 @@ sudo curl --silent --location https://deb.nodesource.com/setup_5.x | bash -
 
 sudo apt-get update -y
 
+# Fix Imagemagick vunerability
+
+sudo cp /vagrant/config/shared/policy.xml /etc/ImageMagick/
+
 # Set timezone and time syncronization
 
 sudo ln -sf /usr/share/zoneinfo/UTC /etc/localtime
