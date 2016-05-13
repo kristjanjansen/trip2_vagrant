@@ -219,31 +219,37 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo ufw allow 19999/tcp # netdata
     # sudo ufw --force enable
 
+    # Queue
+
+    sudo cp /vagrant/config/shared/queue.conf /etc/supervisor/conf.d/
+    sudo cp /vagrant/config/shared/deploy.conf /etc/supervisor/conf.d/
+    sudo supervisorctl reread
+    sudo supervisorctl update
+    sudo supervisorctl start queue:*
+    sudo supervisorctl start deploy:*
+
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
 
     # Scripts
 
-    # sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
-    # sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
-    # sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
-    # sudo cp /vagrant/config/staging/deploy.sh /var/www/scripts/.
-    # sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
+    sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
+    sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
+    sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
+    sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
+    sudo cp /vagrant/config/staging/deploy.sh /var/www/scripts/.
 
-    # sudo sed -i "s/environment: .*/environment: production/" /var/www/scripts/deploy.yaml
-    # sudo sed -i "s/branch: .*/branch: master/" /var/www/scripts/deploy.yaml
-    # sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/environment: .*/environment: staging/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/branch: .*/branch: master/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
 
-    # cd /var/www/scripts
-    # npm install
-    
-    # Queue
+    cd /var/www/scripts
+    npm install
 
-    # sudo cp /vagrant/config/staging/queue.conf /etc/supervisor/conf.d/queue.conf
-    # sudo supervisorctl reread
-    # sudo supervisorctl update
-    # sudo supervisorctl start queue:*
+    # Environment
+
+    sudo cp /vagrant/config/staging/.env /var/www/.
 
     # Nginx 
 
@@ -252,11 +258,6 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # SSH key
 
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
-
-    # Databases
-
-    mysqladmin -uroot -p$DB_PASSWORD create trip
-    mysqladmin -uroot -p$DB_PASSWORD create trip2
 
 fi
 
@@ -267,8 +268,8 @@ if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/config/shared/install.sh /var/www/scripts/.
     sudo cp /vagrant/config/shared/package.json /var/www/scripts/.
     sudo cp /vagrant/config/shared/deploy.js /var/www/scripts/.
-    sudo cp /vagrant/config/production/deploy.sh /var/www/scripts/.
     sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
+    sudo cp /vagrant/config/production/deploy.sh /var/www/scripts/.
 
     sudo sed -i "s/environment: .*/environment: production/" /var/www/scripts/deploy.yaml
     sudo sed -i "s/branch: .*/branch: v1/" /var/www/scripts/deploy.yaml
@@ -280,13 +281,6 @@ if [ "$ENVIRONMENT" = "production" ]; then
     # Environment
 
     sudo cp /vagrant/config/production/.env /var/www/.
-
-    # Queue
-
-    sudo cp /vagrant/config/production/queue.conf /etc/supervisor/conf.d/queue.conf
-    sudo supervisorctl reread
-    sudo supervisorctl update
-    sudo supervisorctl start queue:*
 
     # Nginx
 
