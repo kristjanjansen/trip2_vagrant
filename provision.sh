@@ -196,7 +196,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Cron
 
-    cron="* * * * * php /var/www/trip2/current/artisan schedule:run >> /dev/null 2>&1"
+    cron="* * * * * php /var/www/trip2/artisan schedule:run 2>&1 | logger -t cronschedule"
     (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
 
     # Netdata
