@@ -232,6 +232,11 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo supervisorctl start queue:*
     sudo supervisorctl start deploy:*
 
+    # Papertrail
+
+    sudo echo "*.*          @$PAPERTRAIL_DOMAIN.papertrailapp.com:$PAPERTRAIL_PORT" >> /etc/rsyslog.conf
+    sudo service rsyslog restart
+
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then

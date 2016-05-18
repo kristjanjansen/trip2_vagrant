@@ -18,3 +18,8 @@ label: ''
 # Deploy config
 
 slack:
+
+# Papertrail config
+
+papertrail_domain:
+papertrail_port:
