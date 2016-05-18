@@ -232,12 +232,16 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     sudo supervisorctl start queue:*
     sudo supervisorctl start deploy:*
 
-    # Papertrail
+    # Syslog and Papertrail
 
     sudo echo "*.*          @$PAPERTRAIL_DOMAIN.papertrailapp.com:$PAPERTRAIL_PORT" >> /etc/rsyslog.conf
     printf "\$LocalHostName trip2-$ENVIRONMENT\n\n" | sudo cat - /etc/rsyslog.conf > /tmp/out && sudo mv /tmp/out /etc/rsyslog.conf
     sudo service rsyslog restart
-    
+    # sudo sed -i "s/#long_query_time/long_query_time/" /etc/mysql/my.cnf 
+    # sudo sed -i "s/#log_slow_queries/log_slow_queries/" /etc/mysql/my.cnf 
+    # sudo sed -i "s/#log-queries-not-using-indexes/log-queries-not-using-indexes/" /etc/mysql/my.cnf 
+    # sudo service mysql restart
+
 fi
 
 if [ "$ENVIRONMENT" = "staging" ]; then
