@@ -21,6 +21,10 @@ sudo apt-add-repository ppa:rwky/redis -y
 sudo apt-add-repository ppa:ondrej/php -y
 sudo curl --silent --location https://deb.nodesource.com/setup_5.x | bash -
 
+apt-key adv --keyserver ha.pool.sks-keyservers.net --recv-keys 5072E1F5
+sh -c 'echo "deb http://repo.mysql.com/apt/ubuntu/ trusty mysql-5.7" >> /etc/apt/sources.list.d/mysql.list'
+
+
 sudo apt-get update -y
 
 # Fix Imagemagick vunerability
@@ -101,17 +105,20 @@ sudo service php7.0-fpm restart
 
 # Install MySQL
 
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password $DB_PASSWORD"
-sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password $DB_PASSWORD"
-sudo apt-get install -y mysql-server-5.6
+# Install MySQL
 
+debconf-set-selections <<< "mysql-community-server mysql-community-server/data-dir select ''"
+debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password $DB_PASSWORD"
+debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password $DB_PASSWORD"
+apt-get install -y mysql-server
 
-# MySQL remote access
+# MySQL settings
 
+echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
 sudo sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
 sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
-sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
 
+# sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
 # sudo mysql --user="root" --password="$DB_PASSWORD" -e "CREATE USER 'server'@'0.0.0.0' IDENTIFIED BY '$DB_PASSWORD';"
 # sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO 'server'@'0.0.0.0' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
 # sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO 'server'@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
