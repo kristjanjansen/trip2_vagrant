@@ -117,8 +117,8 @@ apt-get install -y mysql-server
 echo "default_password_lifetime = 0" >> /etc/mysql/my.cnf
 sudo sed -i '/^bind-address/s/bind-address.*=.*/bind-address = 0.0.0.0/' /etc/mysql/my.cnf
 sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO root@'0.0.0.0' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
+sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
 
-# sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO root@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
 # sudo mysql --user="root" --password="$DB_PASSWORD" -e "CREATE USER 'server'@'0.0.0.0' IDENTIFIED BY '$DB_PASSWORD';"
 # sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO 'server'@'0.0.0.0' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
 # sudo mysql --user="root" --password="$DB_PASSWORD" -e "GRANT ALL ON *.* TO 'server'@'%' IDENTIFIED BY '$DB_PASSWORD' WITH GRANT OPTION;"
