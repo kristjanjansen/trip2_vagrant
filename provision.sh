@@ -272,6 +272,8 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     # Environment
 
     sudo cp /vagrant/config/staging/.env /var/www/.
+    sudo sed -i "s/MAIL_USERNAME=.*/MAIL_USERNAME=$MAIL_USERNAME/" /var/www/.env
+    sudo sed -i "s/MAIL_PASSWORD=.*/MAIL_PASSWORD=$MAIL_PASSWORD/" /var/www/.env
 
     # Nginx 
 
@@ -303,7 +305,9 @@ if [ "$ENVIRONMENT" = "production" ]; then
     # Environment
 
     sudo cp /vagrant/config/production/.env /var/www/.
-
+    sudo sed -i "s/MAIL_USERNAME=.*/MAIL_USERNAME=$MAIL_USERNAME/" /var/www/.env
+    sudo sed -i "s/MAIL_PASSWORD=.*/MAIL_PASSWORD=$MAIL_PASSWORD/" /var/www/.env
+    
     # Nginx
 
     sudo cp /vagrant/config/production/nginx /etc/nginx/sites-available/trip2

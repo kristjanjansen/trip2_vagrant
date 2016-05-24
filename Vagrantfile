@@ -29,7 +29,9 @@ Vagrant.configure(2) do |config|
       "DB_PASSWORD" => settings['db_password'],
       "SLACK" => settings['slack'],
       "PAPERTRAIL_DOMAIN" => settings['papertrail_domain'],
-      "PAPERTRAIL_PORT" => settings['papertrail_port']
+      "PAPERTRAIL_PORT" => settings['papertrail_port'],
+      "MAIL_USERNAME" => settings['mail_username'],
+      "MAIL_PASSWORD" => settings['mail_password']
     }
   end
 
