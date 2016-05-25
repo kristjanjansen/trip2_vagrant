@@ -261,10 +261,10 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
     sudo cp /vagrant/config/staging/deploy.sh /var/www/scripts/.
 
-    sudo sed -i "s/environment: .*/environment: staging/" /var/www/scripts/deploy.yaml
-    sudo sed -i "s/branch: .*/branch: master/" /var/www/scripts/deploy.yaml
-    sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
-    sudo sed -i "s/emoji: .*/emoji: \":robot_face:\"/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/environment:.*/environment: staging/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/branch:.*/branch: master/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/slack:.*/slack: $SLACK/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/emoji:.*/emoji: \":robot_face:\"/" /var/www/scripts/deploy.yaml
 
     cd /var/www/scripts
     npm install
