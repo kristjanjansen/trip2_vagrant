@@ -38,6 +38,7 @@ Vagrant.configure(2) do |config|
   config.vm.provider :digital_ocean do |provider, override|
     # override.ssh.username = "tripikas"
     override.ssh.private_key_path = '~/.ssh/id_rsa'
+    override.vm.hostname = settings['name']
     override.vm.box = 'digital_ocean'
     override.vm.box_url = 'https://github.com/smdahlen/vagrant-digitalocean/raw/master/box/digital_ocean.box'
     provider.image = 'ubuntu-14-04-x64'
@@ -55,7 +56,7 @@ Vagrant.configure(2) do |config|
     provider.datacenter = 'frankfurt'
     provider.api_key = settings['token']
     provider.plan = settings['plan']
-    provider.label = settings['label']
+    provider.label = settings['name']
   end
 
 end

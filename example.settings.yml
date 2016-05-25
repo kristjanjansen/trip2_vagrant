@@ -1,5 +1,6 @@
 # General config
 
+name: trip2_local
 environment: local
 db_password: secret
 
@@ -13,7 +14,6 @@ trip_folder: '../trip2'
 
 plan: ''
 token: ''
-label: ''
 
 # Deploy config
 
