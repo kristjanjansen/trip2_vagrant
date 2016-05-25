@@ -295,9 +295,9 @@ if [ "$ENVIRONMENT" = "production" ]; then
     sudo cp /vagrant/config/shared/example.deploy.yaml /var/www/scripts/deploy.yaml
     sudo cp /vagrant/config/production/deploy.sh /var/www/scripts/.
 
-    sudo sed -i "s/environment: .*/environment: production/" /var/www/scripts/deploy.yaml
-    sudo sed -i "s/branch: .*/branch: v1/" /var/www/scripts/deploy.yaml
-    sudo sed -i "s/slack: .*/slack: $SLACK/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/environment:.*/environment: production/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/branch:.*/branch: v1/" /var/www/scripts/deploy.yaml
+    sudo sed -i "s/slack:.*/slack: $SLACK/" /var/www/scripts/deploy.yaml
 
     cd /var/www/scripts
     npm install
