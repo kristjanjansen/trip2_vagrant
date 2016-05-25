@@ -44,6 +44,7 @@ else
 
         php artisan migrate
 
+        sudo supervisorctl start queue:*
     fi
 
 fi
