@@ -274,6 +274,8 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     sudo cp /vagrant/config/staging/.env /var/www/.
     sudo sed -i "s/MAIL_USERNAME=.*/MAIL_USERNAME=$MAIL_USERNAME/" /var/www/.env
     sudo sed -i "s/MAIL_PASSWORD=.*/MAIL_PASSWORD=$MAIL_PASSWORD/" /var/www/.env
+    IP="$(ifconfig | grep -v 'eth0:' | grep -A 1 'eth0' | tail -1 | cut -d ':' -f 2 | cut -d ' ' -f 1)"
+    sudo sed -i "s/FULL_BASE_URL=.*/FULL_BASE_URL=http://$IP\//" /var/www/.env
 
     # Nginx 
 
