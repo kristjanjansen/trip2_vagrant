@@ -1,6 +1,6 @@
 # General config
 
-name: trip2_local
+name: trip2local
 environment: local
 db_password: secret
 
