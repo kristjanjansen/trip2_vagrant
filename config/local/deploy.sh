@@ -5,7 +5,7 @@ cd trip2
 git pull
 composer install --no-interaction
 npm install --no-bin-links
-gulp
+gulp v1
 
 php artisan optimize --force
 php artisan cache:clear

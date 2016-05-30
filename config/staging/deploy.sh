@@ -5,7 +5,7 @@ php artisan down
 git pull
 composer update
 npm install
-gulp
+gulp v1
 
 composer dump-autoload --optimize --profile
 php artisan optimize --force

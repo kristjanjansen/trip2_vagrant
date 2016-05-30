@@ -7,7 +7,7 @@ export DEBIAN_FRONTEND=noninteractive
 sudo apt-get update -y 
 sudo apt-get upgrade -y
 
-# Locale
+# Locale and timezone
 
 sudo echo "LC_ALL=en_US.UTF-8" >> /etc/default/locale
 sudo locale-gen en_US.UTF-8
@@ -33,7 +33,7 @@ sudo cp /vagrant/config/shared/policy.xml /etc/ImageMagick/
 
 # Set timezone and time syncronization
 
-sudo ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+sudo ln -sf /usr/share/zoneinfo/Europe/Tallinn /etc/localtime
 sudo apt-get install ntp
 
 # PHP
@@ -208,7 +208,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Netdata
 
-    sudo apt-get -y install zlib1g-dev gcc make git autoconf autogen automake pkg-config
+    sudo apt-get -y zlib1g-dev uuid-dev libmnl-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
     sudo ./netdata-installer.sh --dont-wait > /dev/null 2>&1
