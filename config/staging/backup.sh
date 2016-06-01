@@ -19,23 +19,19 @@ else
 
     mv /var/www/trip2.sql.gz /var/www/trip2--$(date +%F--%R).sql.gz
 
-    # Replicate production images to staging images
-
-    rsync -azP --delete root@46.101.120.198:/var/www/trip2/storage/app/images/ /var/www/trip2/storage/app
-    
-    # Create image backup
-
-    tar -zcvf /var/www/trip2--$(date +%F--%R).images.gz /var/www/trip2/storage/app/images/original/ > /dev/null
-
     # We delete db backups older than 2 days
     # We keep 2 * 24 hourly db backups
 
     find /var/www/*.sql.gz -type f -mtime +2 -delete
 
-    # We delete image backups older than one hour
-    # We keep 1 hourly image backup (due to its size)
+   # Replicate production images to staging images
 
-    find /var/www/*.images.gz -type f -mmin +60 -delete
+    rsync -azP --delete root@46.101.120.198:/var/www/trip2/storage/app/images/ /var/www/trip2/storage/app
+    
+    # Create image backup
+
+    # tar -zcvf /var/www/trip2--$(date +%F--%R).images.gz /var/www/trip2/storage/app/images/original/ > /dev/null
+    # find /var/www/*.images.gz -type f -mmin +60 -delete
 
 fi
 
