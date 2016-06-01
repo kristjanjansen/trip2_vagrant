@@ -27,6 +27,7 @@ Vagrant.configure(2) do |config|
     s.env = {
       "ENVIRONMENT" => settings['environment'],
       "DB_PASSWORD" => settings['db_password'],
+      "REMOTE_DB_PASSWORD" => settings['remote_db_password'],
       "SLACK" => settings['slack'],
       "PAPERTRAIL_DOMAIN" => settings['papertrail_domain'],
       "PAPERTRAIL_PORT" => settings['papertrail_port'],

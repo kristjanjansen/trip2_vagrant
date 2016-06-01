@@ -187,7 +187,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     sudo mkdir /var/www/scripts
     sudo cp /vagrant/config/shared/update_db.sh /var/www/scripts/.
-
+    
     # Access
 
     # sudo usermod -G sudo tripikas
@@ -203,8 +203,8 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Cron
 
-    cron="* * * * * php /var/www/trip2/artisan schedule:run 2>&1 | logger -t cronschedule"
-    (sudo crontab -l 2>/dev/null; echo "$cron") | sudo crontab -
+    SCHEDULE_CRON="* * * * * php /var/www/trip2/artisan schedule:run 2>&1 | logger -t cronschedule"
+    (sudo crontab -l 2>/dev/null; echo "$SCHEDULE_CRON") | sudo crontab -
 
     # Netdata
 
@@ -248,6 +248,13 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
     # sudo sed -i "s/#log_slow_queries/log_slow_queries/" /etc/mysql/my.cnf 
     # sudo sed -i "s/#log-queries-not-using-indexes/log-queries-not-using-indexes/" /etc/mysql/my.cnf 
     # sudo service mysql restart
+
+    # Backup
+    
+    sudo cp /vagrant/config/staging/backup.sh /var/www/scripts/.
+    sudo mkdir /var/www/backup
+    BACKUP_CRON="30 * * * * /var/www/scripts/backup.sh $DB_PASSWORD $REMOTE_DB_PASSWORD 2>&1 | logger -t backup"
+    (sudo crontab -l 2>/dev/null; echo "$BACKUP_CRON") | sudo crontab -
 
 fi
 
