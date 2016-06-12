@@ -13,22 +13,22 @@ else
 
     # Replicate production database to staging database
 
-    ssh root@46.101.120.198 "mysqldump -uroot -p$2 trip2 | gzip > $BACKUP_DIR/trip2.sql.gz"
-    scp root@46.101.120.198:/var/www/trip2.sql.gz /var/www/.
-    gunzip -c /var/www/trip2.sql.gz | mysql -uroot -p$1 trip2
+    ssh root@46.101.120.198 "mysqldump -uroot -p$2 trip2 | gzip > /var/www/backup/trip2.sql.gz"
+    scp root@46.101.120.198:/var/www/backup/trip2.sql.gz /var/www/backup/.
+    gunzip -c /var/www/backup/trip2.sql.gz | mysql -uroot -p$1 trip2
     
     # Move replicated database to a backup
 
-    mv /var/www/trip2.sql.gz /var/www/trip2--$(date +"%Y-%m-%d--%H-%M").sql.gz
+    mv /var/www/backup/trip2.sql.gz /var/www/backup/trip2--$(date +"%Y-%m-%d--%H-%M").sql.gz
 
     # We delete db backups older than 2 days
     # We keep 2 * 24 hourly db backups
 
-    find /var/www/*.sql.gz -type f -mtime +2 -delete
+    find /var/www/backup/*.sql.gz -type f -mtime +2 -delete
 
-   # Replicate production images to staging images
+    # Replicate production images to staging images
 
-    rsync -azP --delete root@46.101.120.198:/var/www/trip2/storage/app/images/ /var/www/trip2/storage/app
+    # rsync -azP root@46.101.120.198:/var/www/trip2/storage/app/images /var/www/trip2/storage/app
     
     # Create image backup
 
