@@ -208,7 +208,7 @@ if [ "$ENVIRONMENT" = "staging" ] || [ "$ENVIRONMENT" = "production" ]; then
 
     # Netdata
 
-    sudo apt-get -y zlib1g-dev uuid-dev libmnl-dev gcc make git autoconf autogen automake pkg-config
+    sudo apt-get install -y zlib1g-dev uuid-dev libmnl-dev gcc make git autoconf autogen automake pkg-config
     sudo git clone https://github.com/firehol/netdata.git --depth=1
     cd netdata
     sudo ./netdata-installer.sh --dont-wait > /dev/null 2>&1
