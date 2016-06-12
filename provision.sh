@@ -292,6 +292,11 @@ if [ "$ENVIRONMENT" = "staging" ]; then
 
     ssh-keygen -t rsa -b 4096 -C "staging@trip.ee" -N "" -f ~/.ssh/id_rsa
 
+    # Backup
+
+    BACKUP_CRON="15 * * * * /var/www/scripts/backup.sh $DB_PASSWORD $REMOTE_DB_PASSWORD 2>&1 | logger -t backup"
+    (sudo crontab -l 2>/dev/null; echo "$BACKUP_CRON") | sudo crontab -
+
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
