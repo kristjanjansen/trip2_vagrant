@@ -1,5 +1,18 @@
 ## Installation
 
+### Laragon
+
+```
+cd c:/laragon/www/trip2
+composer install --prefer-dist --no-interaction
+curl https://raw.githubusercontent.com/tripikad/trip2_vagrant/master/config/local/.env > .env
+php artisan key:generate
+npm install
+gulp
+mysqladmin -uroot -p create trip
+mysqladmin -uroot -p create trip2
+```
+
 ### Local Vagrant
 
 Run
