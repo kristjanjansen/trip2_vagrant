@@ -297,6 +297,10 @@ if [ "$ENVIRONMENT" = "staging" ]; then
     BACKUP_CRON="15 * * * * /var/www/scripts/backup.sh $DB_PASSWORD $REMOTE_DB_PASSWORD 2>&1 | logger -t backup"
     (sudo crontab -l 2>/dev/null; echo "$BACKUP_CRON") | sudo crontab -
 
+    # Firewall
+
+    sudo ufw allow 8000/tcp # cusco
+
 fi
 
 if [ "$ENVIRONMENT" = "production" ]; then
