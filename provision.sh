@@ -350,3 +350,6 @@ sudo service php7.0-fpm restart
 # /etc/redis/redis.conf
 # maxmemory-policy volatile-ttl
 # sudo service redis-server restart
+
+# /etc/nginx/nginx.conf
+# http > client_max_body_size 100m;
