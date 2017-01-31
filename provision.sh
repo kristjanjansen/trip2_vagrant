@@ -353,3 +353,5 @@ sudo service php7.0-fpm restart
 
 # /etc/nginx/nginx.conf
 # http > client_max_body_size 100m;
+
+# curl -sSL https://agent.digitalocean.com/install.sh | sh
